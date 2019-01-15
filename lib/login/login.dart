@@ -80,7 +80,6 @@ class LoginPageState extends State<LoginPage> {
               padding: EdgeInsets.all(1.0),
               child: new Row(
                 // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-               
                 children: <Widget>[
                   new SizedBox(
                     height: 128.0,

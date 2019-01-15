@@ -19,9 +19,9 @@ class ProfilePage extends StatefulWidget {
 
 class ProfilePageState extends State<ProfilePage> {
   final _formKey = GlobalKey<FormState>();
-  String _name;
-  String _family;
-  List avatarUrls = new List();
+  List avatarUrlsOld = new List();
+  List avatarUrlsNew = new List();
+
   String _imageUrlLast;
   var textEditNameController = new TextEditingController();
   var textEditFamilyController = new TextEditingController();
@@ -40,49 +40,87 @@ class ProfilePageState extends State<ProfilePage> {
   }
 
   void _save() async {
+    List avatarUrlsMustBeDeleted = new List();
+    List avatarUrlsMustBeRemained = new List();
+    avatarUrlsOld.forEach((imageUrl) {
+      avatarUrlsMustBeDeleted.add(imageUrl);
+      avatarUrlsMustBeRemained.add(imageUrl);
+    });
+    for (String avatarUrlNew in avatarUrlsNew) {
+      avatarUrlsMustBeDeleted.removeWhere(
+          (avatarUrlMustBeDeleted) => avatarUrlMustBeDeleted == avatarUrlNew);
+    }
+    for (String avatarUrlNew in avatarUrlsNew) {
+      // خط زیر باید در واقع باشد
+      //RemainWhere
+      avatarUrlsMustBeRemained.removeWhere(
+          (avatarUrlMustBeRemained) => avatarUrlMustBeRemained != avatarUrlNew);
+    }
+    for (String avatarUrlOld in avatarUrlsOld) {
+      avatarUrlsNew.removeWhere((avatarUrlNew) => avatarUrlNew == avatarUrlOld);
+    }
 // 1 : Upload imageUrls
     TLoading tLoading = new TLoading(context);
     tLoading.show("uploading ...");
-    for (String imageUrl in avatarUrls) {
-      String networkUrl = await _uploadProfilePicture(imageUrl);
-      // print(newworkUrl);
+    List networkUrls = new List();
+    for (String avatarUrlNew in avatarUrlsNew) {
+      String networkUrl = await _uploadProfilePicture(avatarUrlNew);
+      networkUrls.add(networkUrl);
     }
     tLoading.hide();
 
 // 2 : get All uploaded urls
+    avatarUrlsNew = networkUrls;
+    FirebaseApp app = await FirebaseApp.configure(
+      name: 'entertainmate',
+      options: const FirebaseOptions(
+        googleAppID: '1:560093923265:android:f3afa66d99637d32',
+        apiKey: 'AIzaSyDyUnIcLNuVhU8koHZP15JfCyrTi9K9U5g',
+        projectID: 'entertainmate-2019',
+      ),
+    );
+    final Firestore firestore = Firestore(app: app);
+    await firestore.settings(timestampsInSnapshotsEnabled: true);
+    //concat remain images and uploaded images
+    List newAvatarUrls = new List.from(avatarUrlsMustBeRemained)
+      ..addAll(avatarUrlsNew);
+    var user = {
+      'name': textEditNameController.text,
+      'family': textEditFamilyController.text,
+      'avatarUrls': newAvatarUrls
+    };
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String uid = prefs.getString("uid");
+
 // 3 : update imageurls table user
+    tLoading.show("saving ...");
+    firestore.collection('users').document(uid).updateData(user).then((v) {
+      int g = 0;
+      //TODO update success
+    }).catchError((e) {
+      int g1 = 0;
+      //TODO update fails
+    });
+    tLoading.hide();
 // 4 : delete unused images
+
+// 5. load new sata from users table and fill textboxs and image profile
     // print(imageUrlsMustBeDeleted);
     // print(imageUrls);
   }
 
   void _openImageCollection() async {
-    List imageUrlsOriginal = new List();
-    List imageUrlsMustBeDeleted = new List();
-    avatarUrls.forEach((imageUrl) {
-      imageUrlsOriginal.add(imageUrl);
-      imageUrlsMustBeDeleted.add(imageUrl);
-    });
     Map results = await Navigator.push(
       context,
       MaterialPageRoute(
           builder: (context) => TImageCollection(
                 title: "Profile Pictures",
-                imageUrls: avatarUrls.toList(),
+                imageUrls: avatarUrlsOld.toList(),
               )),
     );
 
     if (results != null && results.containsKey('imageUrls')) {
-
-      avatarUrls = results['imageUrls'];
-      for (String imageUrl in avatarUrls) {
-        imageUrlsMustBeDeleted.removeWhere(
-            (imageUrlMustBeDeleted) => imageUrlMustBeDeleted == imageUrl);
-      }
-
-      for (String imageUrlOriginal in imageUrlsOriginal) {
-        avatarUrls.removeWhere((imageUrl) => imageUrl == imageUrlOriginal);
-      }
+      avatarUrlsNew = results['imageUrls'];
     }
   }
 
@@ -110,10 +148,10 @@ class ProfilePageState extends State<ProfilePage> {
       textEditFamilyController.text = datasnapshot.data['family'] == null
           ? ""
           : datasnapshot.data['family'];
-      avatarUrls = datasnapshot.data['avatarUrls'];
-      if (avatarUrls.length != 0) {
+      avatarUrlsOld = datasnapshot.data['avatarUrls'];
+      if (avatarUrlsOld.length != 0) {
         setState(() {
-          _imageUrlLast = avatarUrls[avatarUrls.length - 1];
+          _imageUrlLast = avatarUrlsOld[avatarUrlsOld.length - 1];
         });
       }
     }
@@ -174,9 +212,6 @@ class ProfilePageState extends State<ProfilePage> {
                     ),
                   ),
                   keyboardType: TextInputType.emailAddress,
-                  onSaved: (String val) {
-                    _name = val;
-                  },
                 ),
                 Padding(padding: EdgeInsets.only(bottom: 5.0)),
                 new TextFormField(
@@ -196,9 +231,6 @@ class ProfilePageState extends State<ProfilePage> {
                     ),
                   ),
                   keyboardType: TextInputType.emailAddress,
-                  onSaved: (String val) {
-                    _name = val;
-                  },
                 )
               ],
             ),
