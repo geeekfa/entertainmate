@@ -23,11 +23,16 @@ dependencies:
   cached_network_image: ^0.5.1
   image_picker: ^0.4.12
   firebase_storage: ^1.0.4
-  path: any
+  path: any 
+  flutter_launcher_icons: ^0.7.0
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^0.1.2
+flutter_icons:
+  android: "launcher_icon" 
+  ios: true
+  image_path: "images/launcher.png"
 
 dev_dependencies:
   flutter_test:
@@ -81,7 +86,10 @@ flutter:
   fonts:
     - family: calibri
       fonts:
-        - asset: fonts/Calibri.ttf
-        - asset: fonts/CALIBRIB.TTF
-        - asset: fonts/CALIBRII.TTF
-        - asset: fonts/CALIBRIZ.TTF
+        - asset: fonts/calibri.ttf
+        - asset: fonts/calibrib.ttf
+        - asset: fonts/calibrii.ttf
+        - asset: fonts/calibriz.ttf
+    - family: BRUSHSCI
+      fonts:
+        - asset: fonts/BRUSHSCI.ttf

@@ -74,7 +74,7 @@ class LoginPageState extends State<LoginPage> {
                     color: Colors.blueGrey,
                     fontSize: 30.0,
                     fontWeight: FontWeight.bold,
-                    fontFamily: 'calibri')),
+                    fontFamily: 'BRUSHSCI')),
             new Container(
               width: 280.0,
               padding: EdgeInsets.all(1.0),
