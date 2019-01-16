@@ -29,12 +29,18 @@ class TModalRoute extends ModalRoute<void> {
     Animation<double> animation,
     Animation<double> secondaryAnimation,
   ) {
-    return Material(
+    return new WillPopScope(
+       onWillPop: (){
+         Navigator.pop(context);
+         Navigator.pop(context);
+         return new Future.value(false);},
+      child: Material(
       type: MaterialType.transparency,
       child: SafeArea(
         child: _buildOverlayContent(context),
       ),
-    );
+    )
+    ); 
   }
 
   Widget _buildOverlayContent(BuildContext context) {

@@ -22,7 +22,6 @@ class ProfilePageState extends State<ProfilePage> {
   List avatarUrlsOld = new List();
   List avatarUrlsNew = new List();
 
-  String _imageUrlLast;
   var textEditNameController = new TextEditingController();
   var textEditFamilyController = new TextEditingController();
 
@@ -50,11 +49,9 @@ class ProfilePageState extends State<ProfilePage> {
       avatarUrlsMustBeDeleted.removeWhere(
           (avatarUrlMustBeDeleted) => avatarUrlMustBeDeleted == avatarUrlNew);
     }
-    for (String avatarUrlNew in avatarUrlsNew) {
-      // خط زیر باید در واقع باشد
-      //RemainWhere
-      avatarUrlsMustBeRemained.removeWhere(
-          (avatarUrlMustBeRemained) => avatarUrlMustBeRemained != avatarUrlNew);
+    for (String avatarUrlMustBeDeleted in avatarUrlsMustBeDeleted) {
+      avatarUrlsMustBeRemained.removeWhere((avatarUrlMustBeRemained) =>
+          avatarUrlMustBeRemained == avatarUrlMustBeDeleted);
     }
     for (String avatarUrlOld in avatarUrlsOld) {
       avatarUrlsNew.removeWhere((avatarUrlNew) => avatarUrlNew == avatarUrlOld);
@@ -109,22 +106,11 @@ class ProfilePageState extends State<ProfilePage> {
     // print(imageUrls);
   }
 
-  void _openImageCollection() async {
-    Map results = await Navigator.push(
-      context,
-      MaterialPageRoute(
-          builder: (context) => TImageCollection(
-                title: "Profile Pictures",
-                imageUrls: avatarUrlsOld.toList(),
-              )),
-    );
-
-    if (results != null && results.containsKey('imageUrls')) {
-      avatarUrlsNew = results['imageUrls'];
-    }
-  }
+  
 
   void _getCurrentUserInfoFromFireStore() async {
+    TLoading tl = new TLoading(context);
+    tl.show("loading ...");
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String uid = prefs.getString("uid");
 
@@ -148,19 +134,19 @@ class ProfilePageState extends State<ProfilePage> {
       textEditFamilyController.text = datasnapshot.data['family'] == null
           ? ""
           : datasnapshot.data['family'];
-      avatarUrlsOld = datasnapshot.data['avatarUrls'];
-      if (avatarUrlsOld.length != 0) {
-        setState(() {
-          _imageUrlLast = avatarUrlsOld[avatarUrlsOld.length - 1];
-        });
-      }
+      setState(() {
+        avatarUrlsOld = datasnapshot.data['avatarUrls'];
+      });
     }
+    tl.hide();
   }
 
   @override
   void initState() {
     super.initState();
-    _getCurrentUserInfoFromFireStore();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _getCurrentUserInfoFromFireStore();
+    });
   }
 
   @override
@@ -177,24 +163,12 @@ class ProfilePageState extends State<ProfilePage> {
             child: Column(
               children: <Widget>[
                 new Container(
-                  child: new GestureDetector(
-                    onTap: _openImageCollection,
-                    child: _imageUrlLast == null
-                        ? new Icon(
-                            Icons.image,
-                            color: Colors.blueGrey,
-                            size: 100.0,
-                          )
-                        : new CachedNetworkImage(
-                            height: 100.0,
-                            imageUrl: _imageUrlLast,
-                            errorWidget: new Icon(
-                              Icons.broken_image,
-                              size: 100.0,
-                              color: Colors.blueGrey[100],
-                            )),
+                  height: 100.0,
+                  child: TImageCollection(
+                    imageUrls: avatarUrlsOld,
                   ),
                 ),
+                Padding(padding: EdgeInsets.only(bottom: 5.0)),
                 new TextFormField(
                   controller: textEditNameController,
                   style: TextStyle(
