@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:entertainmate/modules/image_collection/image_collection_manager.dart';
+import 'package:entertainmate/modules/image_collection/image_collection_manager1.dart';
 import 'package:flutter/material.dart';
 
 class TImageCollection extends StatefulWidget {
@@ -15,7 +16,7 @@ void _openImageCollectionManager() async {
     Map results = await Navigator.push(
       context,
       MaterialPageRoute(
-          builder: (context) => TImageCollectionManager(
+          builder: (context) => TImageCollectionManager1(
                 title: "Profile Pictures",
                 imageUrls: widget.imageUrls.toList(),
               )),
@@ -44,6 +45,7 @@ void _openImageCollectionManager() async {
               padding: const EdgeInsets.all(10.0),
             )
           : new ListView.builder(
+            physics: new PageScrollPhysics(),
               itemCount: widget.imageUrls.length,
               itemBuilder: (BuildContext ctxt, int index) {
                 return new InkResponse(
