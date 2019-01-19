@@ -14,13 +14,13 @@ class _MainState extends State<TSlider> {
     return  new Scaffold(
         backgroundColor: Colors.grey[100],
         body: new Column(
-          // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             Expanded(
-                child: Container(
+                child: Container( 
               child: new ListView.builder(
                   physics: new PageScrollPhysics(),
-                  itemCount: widget.slides.length,
+                  itemCount: widget.slides.length, 
                   itemBuilder: (BuildContext ctxt, int index) {
                     return widget.slides[index];
                   },
