@@ -1,11 +1,11 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:entertainmate/login/login.dart';
 import 'package:entertainmate/modules/slider/slider.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
 class IntroPage extends StatefulWidget {
+  final List<Intro> intros;
+  IntroPage({@required this.intros});
   @override
   IntroPageState createState() {
     return new IntroPageState();
@@ -14,39 +14,34 @@ class IntroPage extends StatefulWidget {
 
 class IntroPageState extends State<IntroPage> {
   // TIntroSlider _tSlider;
-  List<Intro> _intros;
+
   bool _visibleSKIP;
   bool _visibleNEXT;
   bool _visibleDONE;
   final key = new GlobalKey<TSliderState>();
   @override
   void initState() {
+    _visibleSKIP = true;
+    _visibleNEXT = true;
+    _visibleDONE = false;
     super.initState();
-    _getIntroFromFireStore().then((intros) {
-      setState(() {
-        _intros = intros;
-        _visibleSKIP = true;
-        _visibleNEXT = true;
-        _visibleDONE = false;
-      });
-    });
   }
 
   @override
   Widget build(BuildContext context) {
-    if (_intros == null) {
-      return new Scaffold(
-          body: new Center(
-        child: new Text("Loading ..."),
-      ));
-    }
+    // if (_intros == null) {
+    //   return new Scaffold(
+    //       body: new Center(
+    //     child: new Text("Loading ..."),
+    //   ));
+    // }
 
     return Scaffold(
         body: Stack(
       children: <Widget>[
         TSlider(
           key: key,
-          slides: _intros,
+          slides: widget.intros,
           firstSlideReceived: () {
             setState(() {
               _visibleDONE = false;
@@ -83,11 +78,8 @@ class IntroPageState extends State<IntroPage> {
                         shape: new RoundedRectangleBorder(
                             borderRadius: new BorderRadius.circular(5.0)),
                         borderSide: BorderSide(color: Colors.blue),
-                        child: const Text('SKIP',
-                            style: TextStyle(
-                                fontSize: 14.0,
-                                fontFamily: 'calibri',
-                                fontWeight: FontWeight.bold)),
+                        child: Text('SKIP',
+                            style: Theme.of(context).textTheme.display1),
                         onPressed: () {
                           Navigator.push(
                             context,
@@ -112,11 +104,8 @@ class IntroPageState extends State<IntroPage> {
                         shape: new RoundedRectangleBorder(
                             borderRadius: new BorderRadius.circular(5.0)),
                         borderSide: BorderSide(color: Colors.blue),
-                        child: const Text('NEXT',
-                            style: TextStyle(
-                                fontSize: 14.0,
-                                fontFamily: 'calibri',
-                                fontWeight: FontWeight.bold)),
+                        child: Text('NEXT',
+                            style: Theme.of(context).textTheme.display1),
                         onPressed: () {
                           key.currentState.animateToNext();
                         },
@@ -137,11 +126,8 @@ class IntroPageState extends State<IntroPage> {
                         shape: new RoundedRectangleBorder(
                             borderRadius: new BorderRadius.circular(5.0)),
                         borderSide: BorderSide(color: Colors.blue),
-                        child: const Text('DONE',
-                            style: TextStyle(
-                                fontSize: 14.0,
-                                fontFamily: 'calibri',
-                                fontWeight: FontWeight.bold)),
+                        child: Text('DONE',
+                            style: Theme.of(context).textTheme.display1),
                         onPressed: () {
                           Navigator.push(
                             context,
@@ -154,33 +140,6 @@ class IntroPageState extends State<IntroPage> {
             : Container()
       ],
     ));
-  }
-
-  Future<List<Intro>> _getIntroFromFireStore() async {
-    FirebaseApp app = await FirebaseApp.configure(
-      name: 'entertainmate',
-      options: const FirebaseOptions(
-        googleAppID: '1:560093923265:android:f3afa66d99637d32',
-        apiKey: 'AIzaSyDyUnIcLNuVhU8koHZP15JfCyrTi9K9U5g',
-        projectID: 'entertainmate-2019',
-      ),
-    );
-    final Firestore firestore = Firestore(app: app);
-    await firestore.settings(timestampsInSnapshotsEnabled: true);
-    QuerySnapshot querySnapshot = await firestore
-        .collection('intros')
-        .orderBy('position', descending: false)
-        .getDocuments();
-    List<DocumentSnapshot> docs = querySnapshot.documents;
-    List<Intro> intros = new List<Intro>();
-    for (DocumentSnapshot doc in docs) {
-      Intro i1 = new Intro(
-          title: doc.data["title"],
-          imageUrl: doc.data["imageUrl"],
-          desc: doc.data["desc"]);
-      intros.add(i1);
-    }
-    return intros;
   }
 }
 
@@ -197,13 +156,9 @@ class Intro extends StatelessWidget {
             child: new Container(
       padding: EdgeInsets.all(20.0),
       child: new Column(children: <Widget>[
-        Padding(padding: EdgeInsets.only(bottom: 10.0)),
-        new Text(title,
-            style: TextStyle(
-                color: Colors.blueGrey,
-                fontSize: 23.0,
-                fontWeight: FontWeight.bold,
-                fontFamily: 'calibri')),
+        Padding(padding:
+         EdgeInsets.only(bottom: 10.0)),
+        new Text(title, style: Theme.of(context).textTheme.title),
         Padding(padding: EdgeInsets.only(bottom: 10.0)),
         new CachedNetworkImage(
           imageUrl: imageUrl,
@@ -216,12 +171,7 @@ class Intro extends StatelessWidget {
               child: new Text(
                 desc,
                 textAlign: TextAlign.justify,
-                style: TextStyle(
-                    height: 1.0,
-                    color: Color(0xff000000),
-                    fontSize: 20.0,
-                    fontStyle: FontStyle.italic,
-                    fontFamily: 'calibri'),
+                style: Theme.of(context).textTheme.body2,
               ),
             )),
         Padding(padding: EdgeInsets.only(bottom: 7.0)),

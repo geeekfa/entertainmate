@@ -46,8 +46,8 @@ class TModalRoute extends ModalRoute<void> {
   ) {
     return new WillPopScope(
        onWillPop: (){
-         Navigator.pop(context);
-         Navigator.pop(context);
+        //  Navigator.pop(context);
+        //  Navigator.pop(context);
          return new Future.value(false);},
       child: Material(
       type: MaterialType.transparency,

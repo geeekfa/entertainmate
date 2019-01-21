@@ -68,13 +68,9 @@ class LoginPageState extends State<LoginPage> {
             child: new Container(
                 child: new Column(
           children: <Widget>[
-            new Expanded(child: Container()),
+            new Expanded(child: Container()), 
             new Text("Entertain-Mate",
-                style: TextStyle(
-                    color: Colors.blueGrey,
-                    fontSize: 30.0,
-                    fontWeight: FontWeight.bold,
-                    fontFamily: 'BRUSHSCI')),
+                style: Theme.of(context).textTheme.display2),
             new Container(
               width: 280.0,
               padding: EdgeInsets.all(1.0),
@@ -90,13 +86,10 @@ class LoginPageState extends State<LoginPage> {
                         new SizedBox(
                           child: new TextFormField(
                             controller: textEditEmailController,
-                            style: TextStyle(
-                                color: Colors.blueGrey,
-                                fontSize: 20.0,
-                                fontFamily: 'calibri'),
+                            style: Theme.of(context).textTheme.body1,
                             decoration: new InputDecoration(
                               hintStyle: TextStyle(
-                                color: Colors.blueGrey[300],
+                                color: Theme.of(context).hintColor,
                               ),
                               hintText: "Email",
                               contentPadding: EdgeInsets.all(7.0),
@@ -122,14 +115,11 @@ class LoginPageState extends State<LoginPage> {
                         new SizedBox(
                           child: new TextFormField(
                               controller: textEditPasswordController,
-                              style: TextStyle(
-                                  color: Colors.blueGrey,
-                                  fontSize: 20.0,
-                                  fontFamily: 'calibri'),
+                              style:Theme.of(context).textTheme.body1,
                               obscureText: true,
                               decoration: new InputDecoration(
                                 hintStyle: TextStyle(
-                                  color: Colors.blueGrey[300],
+                                  color: Theme.of(context).hintColor,
                                 ),
                                 hintText: "Password",
                                 contentPadding: EdgeInsets.all(7.0),
@@ -161,10 +151,9 @@ class LoginPageState extends State<LoginPage> {
                         
                         shape: new RoundedRectangleBorder(
                             borderRadius: new BorderRadius.circular(0.0)),
-                        borderSide: BorderSide(color: Colors.blueGrey),
-                        child: const Text('Log in',
-                            style: TextStyle(
-                                fontSize: 20.0, fontFamily: 'calibri')),
+                        borderSide: BorderSide(color: Theme.of(context).primaryColor),
+                        child: Text('Log in',
+                            style:Theme.of(context).textTheme.body1),
                         onPressed: () {
                           if (_formKey.currentState.validate()) {
                             _formKey.currentState.save();
@@ -179,8 +168,8 @@ class LoginPageState extends State<LoginPage> {
               shape: new RoundedRectangleBorder(
                   borderRadius: new BorderRadius.circular(5.0)),
               borderSide: BorderSide(color: Colors.blue),
-              child: const Text('I am new!',
-                  style: TextStyle(fontSize: 16.0, fontFamily: 'calibri')),
+              child: Text('I am new!',
+                  style: Theme.of(context).textTheme.body1),
               onPressed: () {
                 _navigateSignup();
               },

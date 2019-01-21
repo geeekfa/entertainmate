@@ -47,39 +47,29 @@ class HomePageState extends State<HomePage> {
                   accountName: TextField(
                       controller: textEditAccountNameController,
                       enabled: false,
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 18.0,
-                          fontFamily: 'calibri'),
+                      style: Theme.of(context).textTheme.display4,
                       decoration: new InputDecoration(
                           border: InputBorder.none,
                           contentPadding: EdgeInsets.all(0.0))),
                   accountEmail: TextField(
                       controller: textEditAccountEmailController,
                       enabled: false,
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 18.0,
-                          fontFamily: 'calibri'),
+                      style: Theme.of(context).textTheme.display4,
                       decoration: new InputDecoration(
                           border: InputBorder.none,
                           contentPadding: EdgeInsets.all(0.0))),
                   currentAccountPicture: hasAvatarImage
                       ? CircleAvatar(
-                          backgroundColor: Colors.blueGrey[100],
+                          backgroundColor: Theme.of(context).backgroundColor,
                           backgroundImage:
                               CachedNetworkImageProvider(avatarUrl),
                         )
                       : CircleAvatar(
                           child: new Text(
                             firstLetter,
-                            style: TextStyle(
-                                color: Colors.blueGrey[300],
-                                fontSize: 28.0,
-                                fontWeight: FontWeight.bold,
-                                fontFamily: 'calibri'),
+                            style: Theme.of(context).textTheme.headline,
                           ),
-                          backgroundColor: Colors.blueGrey[100],
+                          backgroundColor: Theme.of(context).backgroundColor,
                         ),
                 ),
                 ListTile(

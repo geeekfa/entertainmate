@@ -40,7 +40,7 @@ class TImagePickerDialog {
                   ),
                   shape: new CircleBorder(),
                   elevation: 2.0,
-                  fillColor: Colors.blueGrey,
+                  fillColor: Theme.of(context).primaryColor,
                   padding: const EdgeInsets.all(10.0),
                 ),
                 new RawMaterialButton(
@@ -52,7 +52,7 @@ class TImagePickerDialog {
                   ),
                   shape: new CircleBorder(),
                   elevation: 2.0,
-                  fillColor: Colors.blueGrey,
+                  fillColor: Theme.of(context).primaryColor,
                   padding: const EdgeInsets.all(10.0),
                 ),
               ],

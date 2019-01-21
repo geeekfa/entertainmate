@@ -168,13 +168,10 @@ class ProfilePageState extends State<ProfilePage> {
                 Padding(padding: EdgeInsets.only(bottom: 5.0)),
                 new TextFormField(
                   controller: textEditNameController,
-                  style: TextStyle(
-                      color: Colors.blueGrey,
-                      fontSize: 20.0,
-                      fontFamily: 'calibri'),
+                  style: Theme.of(context).textTheme.body1,
                   decoration: new InputDecoration(
                     hintStyle: TextStyle(
-                      color: Colors.blueGrey[300],
+                      color: Theme.of(context).hintColor,
                     ),
                     hintText: "Name",
                     contentPadding: EdgeInsets.all(7.0),
@@ -187,13 +184,10 @@ class ProfilePageState extends State<ProfilePage> {
                 Padding(padding: EdgeInsets.only(bottom: 5.0)),
                 new TextFormField(
                   controller: textEditFamilyController,
-                  style: TextStyle(
-                      color: Colors.blueGrey,
-                      fontSize: 20.0,
-                      fontFamily: 'calibri'),
+                  style:  Theme.of(context).textTheme.body1,
                   decoration: new InputDecoration(
                     hintStyle: TextStyle(
-                      color: Colors.blueGrey[300],
+                      color: Theme.of(context).hintColor,
                     ),
                     hintText: "Family",
                     contentPadding: EdgeInsets.all(7.0),
@@ -209,7 +203,7 @@ class ProfilePageState extends State<ProfilePage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.blueGrey,
+        backgroundColor: Theme.of(context).primaryColor,
         onPressed: _save,
         tooltip: 'save profile',
         child: Icon(Icons.save),
@@ -255,7 +249,7 @@ class TProfilePicturesState extends State<TProfilePictures> {
               ),
               shape: new CircleBorder(),
               elevation: 2.0,
-              fillColor: Colors.blueGrey,
+              fillColor: Theme.of(context).primaryColor,
               padding: const EdgeInsets.all(10.0),
             )
           : new ListView.builder(
@@ -264,7 +258,6 @@ class TProfilePicturesState extends State<TProfilePictures> {
               itemBuilder: (BuildContext ctxt, int index) {
                 return new InkResponse(
                   onTap: _openImageCollectionManager,
-                  splashColor: Colors.blueGrey[100],
                   highlightShape: BoxShape.rectangle,
                   containedInkWell: true,
                   borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -273,7 +266,7 @@ class TProfilePicturesState extends State<TProfilePictures> {
                     errorWidget: new Icon(
                       Icons.broken_image,
                       size: 200.0,
-                      color: Colors.blueGrey[100],
+                      color: Theme.of(context).primaryColor,
                     ),
                   ),
                 );
