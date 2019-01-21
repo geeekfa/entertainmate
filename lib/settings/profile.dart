@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:entertainmate/modules/loading/loading.dart';
+import 'package:entertainmate/settings/profile_picture.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -184,7 +185,7 @@ class ProfilePageState extends State<ProfilePage> {
                 Padding(padding: EdgeInsets.only(bottom: 5.0)),
                 new TextFormField(
                   controller: textEditFamilyController,
-                  style:  Theme.of(context).textTheme.body1,
+                  style: Theme.of(context).textTheme.body1,
                   decoration: new InputDecoration(
                     hintStyle: TextStyle(
                       color: Theme.of(context).hintColor,
@@ -221,14 +222,24 @@ class TProfilePictures extends StatefulWidget {
 
 class TProfilePicturesState extends State<TProfilePictures> {
   void _openImageCollectionManager() async {
-    // Map results = await Navigator.push(
-    //   context,
-    //   MaterialPageRoute(
-    //       builder: (context) => TImageCollectionManager1(
-    //             title: "Profile Pictures",
-    //             imageUrls: widget.imageUrls.toList(),
-    //           )),
-    // );
+    ProfilePicture p1 = new ProfilePicture(
+      imageUrl:
+          "https://firebasestorage.googleapis.com/v0/b/entertainmate-2019.appspot.com/o/intro_a.png?alt=media&token=ecaa2004-6b70-4bc0-95bd-473b05453c44",
+    );
+    ProfilePicture p2 = new ProfilePicture(
+      imageUrl:
+          "https://firebasestorage.googleapis.com/v0/b/entertainmate-2019.appspot.com/o/intro_b.png?alt=media&token=d2042839-255e-4992-9752-7210dc588d9a",
+    );
+    List<ProfilePicture> lp = new List();
+    lp.add(p1);
+    lp.add(p2);
+    Map results = await Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (context) => ProfilePicturePage(
+                profilePictures: lp,
+              )),
+    );
 
     // if (results != null && results.containsKey('imageUrls')) {
     //   avatarUrlsNew = results['imageUrls'];

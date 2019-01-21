@@ -13,8 +13,6 @@ class IntroPage extends StatefulWidget {
 }
 
 class IntroPageState extends State<IntroPage> {
-  // TIntroSlider _tSlider;
-
   bool _visibleSKIP;
   bool _visibleNEXT;
   bool _visibleDONE;
@@ -29,13 +27,6 @@ class IntroPageState extends State<IntroPage> {
 
   @override
   Widget build(BuildContext context) {
-    // if (_intros == null) {
-    //   return new Scaffold(
-    //       body: new Center(
-    //     child: new Text("Loading ..."),
-    //   ));
-    // }
-
     return Scaffold(
         body: Stack(
       children: <Widget>[
