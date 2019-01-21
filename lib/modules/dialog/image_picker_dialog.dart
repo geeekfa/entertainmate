@@ -35,7 +35,7 @@ class TImagePickerDialog {
                   onPressed: getImageFromCamera,
                   child: new Icon(
                     Icons.camera_alt,
-                    color: Colors.white,
+                    color: Theme.of(context).cardColor,
                     size: 30.0,
                   ),
                   shape: new CircleBorder(),
@@ -47,7 +47,7 @@ class TImagePickerDialog {
                   onPressed: getImageFromGallery,
                   child: new Icon(
                     Icons.image,
-                    color: Colors.white,
+                    color: Theme.of(context).cardColor,
                     size: 30.0,
                   ),
                   shape: new CircleBorder(),

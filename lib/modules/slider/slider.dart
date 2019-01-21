@@ -100,7 +100,7 @@ class TSliderState extends State<TSlider> {
                 width: 8.0,
                 height: 8.0,
                 decoration: new BoxDecoration(
-                  color: Colors.white,
+                  color: Theme.of(context).indicatorColor,
                   shape: BoxShape.circle,
                 ),
               )
@@ -109,7 +109,7 @@ class TSliderState extends State<TSlider> {
                 width: 5.0,
                 height: 5.0,
                 decoration: new BoxDecoration(
-                  color: Colors.white,
+                  color: Theme.of(context).indicatorColor,
                   shape: BoxShape.circle,
                 ),
               ),
@@ -157,7 +157,7 @@ class TSliderState extends State<TSlider> {
           new Expanded(
               flex: 0,
               child: Container(
-                color: Colors.grey[400],
+                color: Theme.of(context).backgroundColor,
                 child: new Align(
                     alignment: Alignment.bottomCenter,
                     child: new Row(

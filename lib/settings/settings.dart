@@ -18,7 +18,7 @@ class SettingsPageState extends State<SettingsPage> {
               children: <Widget>[
                 ListTile(
                   leading: const Icon(Icons.person),
-                  title: Text('Profile'),
+                  title: Text('Profile',style:Theme.of(context).textTheme.caption),
                   onTap: () {
                     Navigator.push(
                       context,
@@ -28,7 +28,7 @@ class SettingsPageState extends State<SettingsPage> {
                 ),
                 ListTile(
                   leading: const Icon(Icons.delete_forever),
-                  title: Text('Delete Account'),
+                  title: Text('Delete Account',style:Theme.of(context).textTheme.caption),
                   onTap: () {
                     // Update the state of the app
                     // ...

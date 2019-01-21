@@ -7,7 +7,7 @@ class TLoading {
   }
 
   void show(String title) {
-   Navigator.of(_context).push(TModalRoute(title));
+    Navigator.of(_context).push(TModalRoute(_context, title));
   }
 
   void hide() {
@@ -16,8 +16,10 @@ class TLoading {
 }
 
 class TModalRoute extends ModalRoute<void> {
+  BuildContext _context;
   String _title;
-  TModalRoute(String title) {
+  TModalRoute(BuildContext context, String title) {
+    this._context = context;
     this._title = title;
   }
   @override
@@ -30,7 +32,7 @@ class TModalRoute extends ModalRoute<void> {
   bool get barrierDismissible => false;
 
   @override
-  Color get barrierColor => Colors.black.withOpacity(0.1);
+  Color get barrierColor => Theme.of(_context).primaryColor.withOpacity(0.1);
 
   @override
   String get barrierLabel => null;
@@ -45,17 +47,17 @@ class TModalRoute extends ModalRoute<void> {
     Animation<double> secondaryAnimation,
   ) {
     return new WillPopScope(
-       onWillPop: (){
-        //  Navigator.pop(context);
-        //  Navigator.pop(context);
-         return new Future.value(false);},
-      child: Material(
-      type: MaterialType.transparency,
-      child: SafeArea(
-        child: _buildOverlayContent(context),
-      ),
-    )
-    ); 
+        onWillPop: () {
+          //  Navigator.pop(context);
+          //  Navigator.pop(context);
+          return new Future.value(false);
+        },
+        child: Material(
+          type: MaterialType.transparency,
+          child: SafeArea(
+            child: _buildOverlayContent(context),
+          ),
+        ));
   }
 
   Widget _buildOverlayContent(BuildContext context) {
@@ -64,6 +66,7 @@ class TModalRoute extends ModalRoute<void> {
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           new CircularProgressIndicator(),
+          Padding(padding: EdgeInsets.only(bottom: 10.0)),
           new Text(_title),
         ],
       ),

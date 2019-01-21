@@ -10,13 +10,17 @@ void main() {
   runApp(MaterialApp(
     home: MainPage(),
     theme: new ThemeData(
+      cardColor: Colors.white,
+      indicatorColor: Colors.white,
       hintColor: Colors.blueGrey[300],
-      backgroundColor:  Colors.blueGrey[100],
-      splashColor:  Colors.blueGrey[100],
+      backgroundColor: Colors.blueGrey[100],
+      splashColor: Colors.blueGrey[100],
       brightness: Brightness.light,
       primaryColor: Colors.blueGrey,
-      accentColor: Colors.blueGrey[100],
+      accentColor: Colors.blueGrey[500],
       textTheme: new TextTheme(
+        caption: TextStyle(
+            fontFamily: 'calibri', color: Colors.black, fontSize: 18.0),
         headline: TextStyle(
             color: Colors.blueGrey[300],
             fontSize: 28.0,
@@ -31,6 +35,11 @@ void main() {
             fontFamily: 'calibri', color: Colors.blueGrey, fontSize: 20.0),
         body2: TextStyle(
             fontFamily: 'calibri', fontSize: 20.0, fontStyle: FontStyle.italic),
+        button: TextStyle(
+            fontFamily: 'calibri',
+            color: Colors.grey[800],
+            fontSize: 14.0,
+            fontWeight: FontWeight.bold),
         display1: TextStyle(
             fontFamily: 'calibri', fontSize: 14.0, fontWeight: FontWeight.bold),
         display2: TextStyle(

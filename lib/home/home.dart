@@ -74,7 +74,7 @@ class HomePageState extends State<HomePage> {
                 ),
                 ListTile(
                   leading: const Icon(Icons.settings),
-                  title: Text('Settings'),
+                  title: Text('Settings',style:Theme.of(context).textTheme.caption),
                   onTap: () {
                     Navigator.push(
                       context,
@@ -84,7 +84,7 @@ class HomePageState extends State<HomePage> {
                 ),
                 ListTile(
                   leading: const Icon(Icons.exit_to_app),
-                  title: Text('Log out'),
+                  title: Text('Log out',style: Theme.of(context).textTheme.caption,),
                   onTap: _logout,
                 ),
               ],

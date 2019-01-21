@@ -74,12 +74,11 @@ class IntroPageState extends State<IntroPage> {
                     child: Opacity(
                       opacity: 0.9,
                       child: new OutlineButton(
-                        color: Colors.grey,
                         shape: new RoundedRectangleBorder(
                             borderRadius: new BorderRadius.circular(5.0)),
                         borderSide: BorderSide(color: Colors.blue),
                         child: Text('SKIP',
-                            style: Theme.of(context).textTheme.display1),
+                            style: Theme.of(context).textTheme.button),
                         onPressed: () {
                           Navigator.push(
                             context,
@@ -100,12 +99,11 @@ class IntroPageState extends State<IntroPage> {
                     child: Opacity(
                       opacity: 0.9,
                       child: new OutlineButton(
-                        color: Colors.grey,
                         shape: new RoundedRectangleBorder(
                             borderRadius: new BorderRadius.circular(5.0)),
                         borderSide: BorderSide(color: Colors.blue),
                         child: Text('NEXT',
-                            style: Theme.of(context).textTheme.display1),
+                            style: Theme.of(context).textTheme.button),
                         onPressed: () {
                           key.currentState.animateToNext();
                         },
@@ -122,12 +120,11 @@ class IntroPageState extends State<IntroPage> {
                     child: Opacity(
                       opacity: 0.9,
                       child: new OutlineButton(
-                        color: Colors.grey,
                         shape: new RoundedRectangleBorder(
                             borderRadius: new BorderRadius.circular(5.0)),
                         borderSide: BorderSide(color: Colors.blue),
                         child: Text('DONE',
-                            style: Theme.of(context).textTheme.display1),
+                            style: Theme.of(context).textTheme.button),
                         onPressed: () {
                           Navigator.push(
                             context,

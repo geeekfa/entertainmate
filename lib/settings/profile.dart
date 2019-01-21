@@ -244,7 +244,7 @@ class TProfilePicturesState extends State<TProfilePictures> {
               onPressed: _openImageCollectionManager,
               child: new Icon(
                 Icons.image,
-                color: Colors.white,
+                color: Theme.of(context).cardColor,
                 size: 80.0,
               ),
               shape: new CircleBorder(),
