@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:entertainmate/intro/intro_slider.dart';
 import 'package:entertainmate/login/login.dart';
+import 'package:entertainmate/modules/slider/slider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -13,34 +13,147 @@ class IntroPage extends StatefulWidget {
 }
 
 class IntroPageState extends State<IntroPage> {
-  TIntroSlider _tSlider;
+  // TIntroSlider _tSlider;
+  List<Intro> _intros;
+  bool _visibleSKIP;
+  bool _visibleNEXT;
+  bool _visibleDONE;
+  final key = new GlobalKey<TSliderState>();
   @override
   void initState() {
     super.initState();
-    _getIntroFromFireStore().then((_intros) {
+    _getIntroFromFireStore().then((intros) {
       setState(() {
-        _tSlider = TIntroSlider(
-          slides: _intros,
-          donePressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => LoginPage()),
-            );
-          },
-        );
+        _intros = intros;
+        _visibleSKIP = true;
+        _visibleNEXT = true;
+        _visibleDONE = false;
       });
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    if (_tSlider == null) {
+    if (_intros == null) {
       return new Scaffold(
           body: new Center(
         child: new Text("Loading ..."),
       ));
     }
-    return _tSlider;
+
+    return Scaffold(
+        body: Stack(
+      children: <Widget>[
+        TSlider(
+          key: key,
+          slides: _intros,
+          firstSlideReceived: () {
+            setState(() {
+              _visibleDONE = false;
+              _visibleNEXT = true;
+              _visibleSKIP = true;
+            });
+          },
+          slideChanged: (index) {
+            setState(() {
+              _visibleDONE = false;
+              _visibleNEXT = true;
+              _visibleSKIP = true;
+            });
+          },
+          lastSlideReceived: () {
+            setState(() {
+              _visibleDONE = true;
+              _visibleNEXT = false;
+              _visibleSKIP = false;
+            });
+          },
+        ),
+        _visibleSKIP
+            ? new Positioned(
+                bottom: 20.0,
+                left: 20.0,
+                child: Container(
+                    height: 25.0,
+                    width: 70.0,
+                    child: Opacity(
+                      opacity: 0.9,
+                      child: new OutlineButton(
+                        color: Colors.grey,
+                        shape: new RoundedRectangleBorder(
+                            borderRadius: new BorderRadius.circular(5.0)),
+                        borderSide: BorderSide(color: Colors.blue),
+                        child: const Text('SKIP',
+                            style: TextStyle(
+                                fontSize: 14.0,
+                                fontFamily: 'calibri',
+                                fontWeight: FontWeight.bold)),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => LoginPage()),
+                          );
+                        },
+                      ),
+                    )))
+            : Container(),
+        _visibleNEXT
+            ? Positioned(
+                bottom: 20.0,
+                right: 20.0,
+                child: Container(
+                    height: 25.0,
+                    width: 70.0,
+                    child: Opacity(
+                      opacity: 0.9,
+                      child: new OutlineButton(
+                        color: Colors.grey,
+                        shape: new RoundedRectangleBorder(
+                            borderRadius: new BorderRadius.circular(5.0)),
+                        borderSide: BorderSide(color: Colors.blue),
+                        child: const Text('NEXT',
+                            style: TextStyle(
+                                fontSize: 14.0,
+                                fontFamily: 'calibri',
+                                fontWeight: FontWeight.bold)),
+                        onPressed: () {
+                          key.currentState.animateToNext();
+                        },
+                      ),
+                    )))
+            : Container(),
+        _visibleDONE
+            ? Positioned(
+                bottom: 20.0,
+                right: 20.0,
+                child: Container(
+                    height: 25.0,
+                    width: 70.0,
+                    child: Opacity(
+                      opacity: 0.9,
+                      child: new OutlineButton(
+                        color: Colors.grey,
+                        shape: new RoundedRectangleBorder(
+                            borderRadius: new BorderRadius.circular(5.0)),
+                        borderSide: BorderSide(color: Colors.blue),
+                        child: const Text('DONE',
+                            style: TextStyle(
+                                fontSize: 14.0,
+                                fontFamily: 'calibri',
+                                fontWeight: FontWeight.bold)),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => LoginPage()),
+                          );
+                        },
+                      ),
+                    )))
+            : Container()
+      ],
+    ));
   }
 
   Future<List<Intro>> _getIntroFromFireStore() async {
@@ -84,6 +197,7 @@ class Intro extends StatelessWidget {
             child: new Container(
       padding: EdgeInsets.all(20.0),
       child: new Column(children: <Widget>[
+        Padding(padding: EdgeInsets.only(bottom: 10.0)),
         new Text(title,
             style: TextStyle(
                 color: Colors.blueGrey,
@@ -95,7 +209,7 @@ class Intro extends StatelessWidget {
           imageUrl: imageUrl,
           errorWidget: new Icon(Icons.error),
         ),
-        Padding(padding: EdgeInsets.only(bottom: 10.0)),
+        Padding(padding: EdgeInsets.only(bottom: 7.0)),
         new Expanded(
             flex: 2,
             child: new SingleChildScrollView(
@@ -110,6 +224,7 @@ class Intro extends StatelessWidget {
                     fontFamily: 'calibri'),
               ),
             )),
+        Padding(padding: EdgeInsets.only(bottom: 7.0)),
       ]),
     )));
   }

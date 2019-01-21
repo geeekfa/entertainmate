@@ -1,6 +1,4 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:entertainmate/modules/image_collection/image_collection_manager.dart';
-import 'package:entertainmate/modules/image_collection/image_collection_manager1.dart';
 import 'package:flutter/material.dart';
 
 class TImageCollection extends StatefulWidget {
@@ -13,14 +11,14 @@ class TImageCollection extends StatefulWidget {
 class _MainState extends State<TImageCollection> {
 
 void _openImageCollectionManager() async {
-    Map results = await Navigator.push(
-      context,
-      MaterialPageRoute(
-          builder: (context) => TImageCollectionManager1(
-                title: "Profile Pictures",
-                imageUrls: widget.imageUrls.toList(),
-              )),
-    );
+    // Map results = await Navigator.push(
+    //   context,
+    //   MaterialPageRoute(
+    //       builder: (context) => TImageCollectionManager1(
+    //             title: "Profile Pictures",
+    //             imageUrls: widget.imageUrls.toList(),
+    //           )),
+    // );
 
     // if (results != null && results.containsKey('imageUrls')) {
     //   avatarUrlsNew = results['imageUrls'];

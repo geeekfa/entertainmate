@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:entertainmate/modules/image_collection/image_collection.dart';
 import 'package:entertainmate/modules/loading/loading.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -106,8 +105,6 @@ class ProfilePageState extends State<ProfilePage> {
     // print(imageUrls);
   }
 
-  
-
   void _getCurrentUserInfoFromFireStore() async {
     TLoading tl = new TLoading(context);
     tl.show("loading ...");
@@ -164,7 +161,7 @@ class ProfilePageState extends State<ProfilePage> {
               children: <Widget>[
                 new Container(
                   height: 100.0,
-                  child: TImageCollection(
+                  child: TProfilePictures(
                     imageUrls: avatarUrlsOld,
                   ),
                 ),
@@ -217,6 +214,71 @@ class ProfilePageState extends State<ProfilePage> {
         tooltip: 'save profile',
         child: Icon(Icons.save),
       ),
+    );
+  }
+}
+
+class TProfilePictures extends StatefulWidget {
+  final List imageUrls;
+  TProfilePictures({this.imageUrls});
+  @override
+  TProfilePicturesState createState() => new TProfilePicturesState();
+}
+
+class TProfilePicturesState extends State<TProfilePictures> {
+  void _openImageCollectionManager() async {
+    // Map results = await Navigator.push(
+    //   context,
+    //   MaterialPageRoute(
+    //       builder: (context) => TImageCollectionManager1(
+    //             title: "Profile Pictures",
+    //             imageUrls: widget.imageUrls.toList(),
+    //           )),
+    // );
+
+    // if (results != null && results.containsKey('imageUrls')) {
+    //   avatarUrlsNew = results['imageUrls'];
+    // }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return new Container(
+      // child:widget.imageUrls==null?
+      child: (widget.imageUrls == null || widget.imageUrls.length == 0)
+          ? RawMaterialButton(
+              onPressed: _openImageCollectionManager,
+              child: new Icon(
+                Icons.image,
+                color: Colors.white,
+                size: 80.0,
+              ),
+              shape: new CircleBorder(),
+              elevation: 2.0,
+              fillColor: Colors.blueGrey,
+              padding: const EdgeInsets.all(10.0),
+            )
+          : new ListView.builder(
+              physics: new PageScrollPhysics(),
+              itemCount: widget.imageUrls.length,
+              itemBuilder: (BuildContext ctxt, int index) {
+                return new InkResponse(
+                  onTap: _openImageCollectionManager,
+                  splashColor: Colors.blueGrey[100],
+                  highlightShape: BoxShape.rectangle,
+                  containedInkWell: true,
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                  child: new CachedNetworkImage(
+                    imageUrl: widget.imageUrls[index],
+                    errorWidget: new Icon(
+                      Icons.broken_image,
+                      size: 200.0,
+                      color: Colors.blueGrey[100],
+                    ),
+                  ),
+                );
+              },
+              scrollDirection: Axis.horizontal),
     );
   }
 }

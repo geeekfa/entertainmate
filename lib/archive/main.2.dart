@@ -1,8 +1,8 @@
+import 'package:entertainmate/home/home.dart';
 import 'package:entertainmate/intro/intro.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:shared_preferences/shared_preferences.dart';
-import './home/home.dart';
 
 void main() {
   runApp(MaterialApp(
