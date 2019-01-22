@@ -55,77 +55,87 @@ class IntroPageState extends State<IntroPage> {
             });
           },
         ),
-        _visibleSKIP
-            ? new Positioned(
-                bottom: 20.0,
-                left: 20.0,
-                child: Container(
-                    height: 25.0,
-                    width: 70.0,
-                    child: Opacity(
-                      opacity: 0.9,
-                      child: new OutlineButton(
-                        shape: new RoundedRectangleBorder(
-                            borderRadius: new BorderRadius.circular(5.0)),
-                        borderSide: BorderSide(color: Colors.blue),
-                        child: Text('SKIP',
-                            style: Theme.of(context).textTheme.button),
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => LoginPage()),
-                          );
-                        },
-                      ),
-                    )))
-            : Container(),
-        _visibleNEXT
-            ? Positioned(
-                bottom: 20.0,
-                right: 20.0,
-                child: Container(
-                    height: 25.0,
-                    width: 70.0,
-                    child: Opacity(
-                      opacity: 0.9,
-                      child: new OutlineButton(
-                        shape: new RoundedRectangleBorder(
-                            borderRadius: new BorderRadius.circular(5.0)),
-                        borderSide: BorderSide(color: Colors.blue),
-                        child: Text('NEXT',
-                            style: Theme.of(context).textTheme.button),
-                        onPressed: () {
-                          key.currentState.animateToNext();
-                        },
-                      ),
-                    )))
-            : Container(),
-        _visibleDONE
-            ? Positioned(
-                bottom: 20.0,
-                right: 20.0,
-                child: Container(
-                    height: 25.0,
-                    width: 70.0,
-                    child: Opacity(
-                      opacity: 0.9,
-                      child: new OutlineButton(
-                        shape: new RoundedRectangleBorder(
-                            borderRadius: new BorderRadius.circular(5.0)),
-                        borderSide: BorderSide(color: Colors.blue),
-                        child: Text('DONE',
-                            style: Theme.of(context).textTheme.button),
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => LoginPage()),
-                          );
-                        },
-                      ),
-                    )))
-            : Container()
+        Positioned( 
+            bottom: 20.0,
+            child: Container(
+                padding: EdgeInsets.only(left: 10.0, right: 10.0),
+                width: MediaQuery.of(context).size.width,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    _visibleSKIP
+                        ? Container(
+                            width: 50.0,
+                            height: 50.0,
+                            child: RawMaterialButton(
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => LoginPage()),
+                                );
+                              },
+                              child: Center(
+                                child: new Text(
+                                  "SKIP",
+                                  style: Theme.of(context).textTheme.display4,
+                                ),
+                              ),
+                              shape: new CircleBorder(),
+                              elevation: 2.0,
+                              fillColor: Theme.of(context).primaryColor,
+                              padding: const EdgeInsets.all(0.0),
+                            ),
+                          )
+                        : Container(
+                            width: 50.0,
+                            height: 50.0,
+                          ),
+                    _visibleNEXT
+                        ? Container(
+                            width: 50.0,
+                            height: 50.0,
+                            child: RawMaterialButton(
+                              onPressed: () {
+                                key.currentState.animateToNext();
+                              },
+                              child: Center(
+                                child: new Text(
+                                  "NEXT",
+                                  style: Theme.of(context).textTheme.display4,
+                                ),
+                              ),
+                              shape: new CircleBorder(),
+                              elevation: 2.0,
+                              fillColor: Theme.of(context).primaryColor,
+                              padding: const EdgeInsets.all(0.0),
+                            ),
+                          )
+                        : Container(
+                            width: 50.0,
+                            height: 50.0,
+                            child: RawMaterialButton(
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => LoginPage()),
+                                );
+                              },
+                              child: Center(
+                                child: new Text(
+                                  "DONE",
+                                  style: Theme.of(context).textTheme.display4,
+                                ),
+                              ),
+                              shape: new CircleBorder(),
+                              elevation: 2.0,
+                              fillColor: Theme.of(context).primaryColor,
+                              padding: const EdgeInsets.all(0.0),
+                            ),
+                          ),
+                  ],
+                ))),
       ],
     ));
   }
@@ -144,8 +154,7 @@ class Intro extends StatelessWidget {
             child: new Container(
       padding: EdgeInsets.all(20.0),
       child: new Column(children: <Widget>[
-        Padding(padding:
-         EdgeInsets.only(bottom: 10.0)),
+        Padding(padding: EdgeInsets.only(bottom: 10.0)),
         new Text(title, style: Theme.of(context).textTheme.title),
         Padding(padding: EdgeInsets.only(bottom: 10.0)),
         new CachedNetworkImage(
@@ -162,7 +171,7 @@ class Intro extends StatelessWidget {
                 style: Theme.of(context).textTheme.body2,
               ),
             )),
-        Padding(padding: EdgeInsets.only(bottom: 7.0)),
+        Padding(padding: EdgeInsets.only(bottom: 40.0)),
       ]),
     )));
   }

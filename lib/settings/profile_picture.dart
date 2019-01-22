@@ -31,48 +31,60 @@ class ProfilePictureState extends State<ProfilePicturePage> {
           lastSlideReceived: () {},
         ),
         Positioned(
-            bottom: 17.0,
+            bottom: 20.0, 
             child: Container(
+                padding: EdgeInsets.only(left: 10.0, right: 10.0),
                 width: MediaQuery.of(context).size.width,
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    RawMaterialButton(
-                      onPressed: (){},
-                      child: new Icon(
-                        Icons.delete,
-                        color: Theme.of(context).cardColor,
-                        size: 40.0,
+                    Container(
+                      width: 50.0,
+                      height: 50.0,
+                      child: RawMaterialButton(
+                        onPressed: () {},
+                        child: new Icon(
+                          Icons.delete,
+                          color: Theme.of(context).cardColor,
+                          size: 35.0,
+                        ),
+                        shape: new CircleBorder(),
+                        elevation: 2.0,
+                        fillColor: Theme.of(context).primaryColor,
+                        padding: const EdgeInsets.all(0.0),
                       ),
-                      shape: new CircleBorder(),
-                      elevation: 2.0,
-                      fillColor: Theme.of(context).primaryColor,
-                      padding: const EdgeInsets.all(2.0),
                     ),
-                    RawMaterialButton(
-                      onPressed: (){},
-                      child: new Icon(
-                        Icons.add,
-                        color: Theme.of(context).cardColor,
-                        size: 40.0,
+                    Container(
+                      width: 50.0,
+                      height: 50.0,
+                      child: RawMaterialButton(
+                        onPressed: () {},
+                        child: new Icon(
+                          Icons.add,
+                          color: Theme.of(context).cardColor,
+                          size: 35.0,
+                        ),
+                        shape: new CircleBorder(),
+                        elevation: 2.0,
+                        fillColor: Theme.of(context).primaryColor,
+                        padding: const EdgeInsets.all(0.0),
                       ),
-                      shape: new CircleBorder(),
-                      elevation: 2.0,
-                      fillColor: Theme.of(context).primaryColor,
-                      padding: const EdgeInsets.all(2.0),
                     ),
-                    RawMaterialButton(
-                      onPressed: (){},
-                      child: new Icon(
-                        Icons.save,
-                        color: Theme.of(context).cardColor,
-                        size: 40.0,
-                      ),
-                      shape: new CircleBorder(),
-                      elevation: 2.0,
-                      fillColor: Theme.of(context).primaryColor,
-                      padding: const EdgeInsets.all(2.0),
-                    ),
+                    Container(
+                        width: 50.0,
+                        height: 50.0,
+                        child: RawMaterialButton(
+                          onPressed: () {},
+                          child: new Icon(
+                            Icons.save,
+                            color: Theme.of(context).cardColor,
+                            size: 35.0,
+                          ),
+                          shape: new CircleBorder(),
+                          elevation: 2.0,
+                          fillColor: Theme.of(context).primaryColor,
+                          padding: const EdgeInsets.all(0.0),
+                        )),
                   ],
                 )))
       ],
