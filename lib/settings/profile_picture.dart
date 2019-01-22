@@ -31,12 +31,12 @@ class ProfilePictureState extends State<ProfilePicturePage> {
           lastSlideReceived: () {},
         ),
         Positioned(
-            bottom: 20.0, 
+            bottom: 20.0,
             child: Container(
                 padding: EdgeInsets.only(left: 10.0, right: 10.0),
                 width: MediaQuery.of(context).size.width,
                 child: Row(
-                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     Container(
                       width: 50.0,

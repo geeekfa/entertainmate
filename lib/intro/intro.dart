@@ -55,7 +55,7 @@ class IntroPageState extends State<IntroPage> {
             });
           },
         ),
-        Positioned( 
+        Positioned(
             bottom: 20.0,
             child: Container(
                 padding: EdgeInsets.only(left: 10.0, right: 10.0),
