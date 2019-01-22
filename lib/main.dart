@@ -13,7 +13,7 @@ void main() {
       cardColor: Colors.white,
       indicatorColor: Colors.white,
       hintColor: Colors.blueGrey[300],
-      backgroundColor: Colors.blueGrey[100],
+      backgroundColor: Colors.blueGrey[400],
       splashColor: Colors.blueGrey[100],
       brightness: Brightness.light,
       primaryColor: Colors.blueGrey,

@@ -31,40 +31,47 @@ class ProfilePictureState extends State<ProfilePicturePage> {
           lastSlideReceived: () {},
         ),
         Positioned(
-            bottom: 20.0,
+            bottom: 17.0,
             child: Container(
-                // height: 50.0,
                 width: MediaQuery.of(context).size.width,
                 child: Row(
-                  // mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: <Widget>[
-                    FloatingActionButton(
-                      backgroundColor: Theme.of(context).primaryColor,
-                      onPressed: () {},
-                      tooltip: 'delete this image',
-                      child: Icon(
+                    RawMaterialButton(
+                      onPressed: (){},
+                      child: new Icon(
                         Icons.delete,
+                        color: Theme.of(context).cardColor,
                         size: 40.0,
                       ),
+                      shape: new CircleBorder(),
+                      elevation: 2.0,
+                      fillColor: Theme.of(context).primaryColor,
+                      padding: const EdgeInsets.all(2.0),
                     ),
-                    FloatingActionButton(
-                      backgroundColor: Theme.of(context).primaryColor,
-                      onPressed: () {},
-                      tooltip: 'insert new image',
-                      child: Icon(
+                    RawMaterialButton(
+                      onPressed: (){},
+                      child: new Icon(
                         Icons.add,
+                        color: Theme.of(context).cardColor,
                         size: 40.0,
                       ),
+                      shape: new CircleBorder(),
+                      elevation: 2.0,
+                      fillColor: Theme.of(context).primaryColor,
+                      padding: const EdgeInsets.all(2.0),
                     ),
-                    FloatingActionButton(
-                      backgroundColor: Theme.of(context).primaryColor,
-                      onPressed: () {},
-                      tooltip: 'save images',
-                      child: Icon(
+                    RawMaterialButton(
+                      onPressed: (){},
+                      child: new Icon(
                         Icons.save,
+                        color: Theme.of(context).cardColor,
                         size: 40.0,
                       ),
+                      shape: new CircleBorder(),
+                      elevation: 2.0,
+                      fillColor: Theme.of(context).primaryColor,
+                      padding: const EdgeInsets.all(2.0),
                     ),
                   ],
                 )))
