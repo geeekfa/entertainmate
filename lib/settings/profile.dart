@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
@@ -39,76 +40,88 @@ class ProfilePageState extends State<ProfilePage> {
   }
 
   void _save() async {
-    List avatarUrlsMustBeDeleted = new List();
-    List avatarUrlsMustBeRemained = new List();
-    avatarUrlsOld.forEach((imageUrl) {
-      avatarUrlsMustBeDeleted.add(imageUrl);
-      avatarUrlsMustBeRemained.add(imageUrl);
-    });
-    for (String avatarUrlNew in avatarUrlsNew) {
-      avatarUrlsMustBeDeleted.removeWhere(
-          (avatarUrlMustBeDeleted) => avatarUrlMustBeDeleted == avatarUrlNew);
-    }
-    for (String avatarUrlMustBeDeleted in avatarUrlsMustBeDeleted) {
-      avatarUrlsMustBeRemained.removeWhere((avatarUrlMustBeRemained) =>
-          avatarUrlMustBeRemained == avatarUrlMustBeDeleted);
-    }
-    for (String avatarUrlOld in avatarUrlsOld) {
-      avatarUrlsNew.removeWhere((avatarUrlNew) => avatarUrlNew == avatarUrlOld);
-    }
-// 1 : Upload imageUrls
+//     List avatarUrlsMustBeDeleted = new List();
+//     List avatarUrlsMustBeRemained = new List();
+//     avatarUrlsOld.forEach((imageUrl) {
+//       avatarUrlsMustBeDeleted.add(imageUrl);
+//       avatarUrlsMustBeRemained.add(imageUrl);
+//     });
+//     for (String avatarUrlNew in avatarUrlsNew) {
+//       avatarUrlsMustBeDeleted.removeWhere(
+//           (avatarUrlMustBeDeleted) => avatarUrlMustBeDeleted == avatarUrlNew);
+//     }
+//     for (String avatarUrlMustBeDeleted in avatarUrlsMustBeDeleted) {
+//       avatarUrlsMustBeRemained.removeWhere((avatarUrlMustBeRemained) =>
+//           avatarUrlMustBeRemained == avatarUrlMustBeDeleted);
+//     }
+//     for (String avatarUrlOld in avatarUrlsOld) {
+//       avatarUrlsNew.removeWhere((avatarUrlNew) => avatarUrlNew == avatarUrlOld);
+//     }
+// // 1 : Upload imageUrls
+//     TLoading tLoading = new TLoading(context);
+//     tLoading.show("uploading ...");
+//     List networkUrls = new List();
+//     for (String avatarUrlNew in avatarUrlsNew) {
+//       String networkUrl = await _uploadProfilePicture(avatarUrlNew);
+//       networkUrls.add(networkUrl);
+//     }
+//     tLoading.hide();
+
+// // 2 : get All uploaded urls
+//     avatarUrlsNew = networkUrls;
+//     FirebaseApp app = await FirebaseApp.configure(
+//       name: 'entertainmate',
+//       options: const FirebaseOptions(
+//         googleAppID: '1:560093923265:android:f3afa66d99637d32',
+//         apiKey: 'AIzaSyDyUnIcLNuVhU8koHZP15JfCyrTi9K9U5g',
+//         projectID: 'entertainmate-2019',
+//       ),
+//     );
+//     final Firestore firestore = Firestore(app: app);
+//     await firestore.settings(timestampsInSnapshotsEnabled: true);
+//     //concat remain images and uploaded images
+//     List newAvatarUrls = new List.from(avatarUrlsMustBeRemained)
+//       ..addAll(avatarUrlsNew);
+//     var user = {
+//       'name': textEditNameController.text,
+//       'family': textEditFamilyController.text,
+//       'avatarUrls': newAvatarUrls
+//     };
+//     SharedPreferences prefs = await SharedPreferences.getInstance();
+//     String uid = prefs.getString("uid");
+
+// // 3 : update imageurls table user
+//     tLoading.show("saving ...");
+//     firestore.collection('users').document(uid).updateData(user).then((v) {
+//       int g = 0;
+//       //TODO update success
+//     }).catchError((e) {
+//       int g1 = 0;
+//       //TODO update fails
+//     });
+//     tLoading.hide();
+// // 4 : delete unused images
+
+// // 5. load new sata from users table and fill textboxs and image profile
+//     // print(imageUrlsMustBeDeleted);
+//     // print(imageUrls);
     TLoading tLoading = new TLoading(context);
-    tLoading.show("uploading ...");
-    List networkUrls = new List();
-    for (String avatarUrlNew in avatarUrlsNew) {
-      String networkUrl = await _uploadProfilePicture(avatarUrlNew);
-      networkUrls.add(networkUrl);
-    }
-    tLoading.hide();
+    tLoading.title = "Loading ...";
 
-// 2 : get All uploaded urls
-    avatarUrlsNew = networkUrls;
-    FirebaseApp app = await FirebaseApp.configure(
-      name: 'entertainmate',
-      options: const FirebaseOptions(
-        googleAppID: '1:560093923265:android:f3afa66d99637d32',
-        apiKey: 'AIzaSyDyUnIcLNuVhU8koHZP15JfCyrTi9K9U5g',
-        projectID: 'entertainmate-2019',
-      ),
-    );
-    final Firestore firestore = Firestore(app: app);
-    await firestore.settings(timestampsInSnapshotsEnabled: true);
-    //concat remain images and uploaded images
-    List newAvatarUrls = new List.from(avatarUrlsMustBeRemained)
-      ..addAll(avatarUrlsNew);
-    var user = {
-      'name': textEditNameController.text,
-      'family': textEditFamilyController.text,
-      'avatarUrls': newAvatarUrls
-    };
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String uid = prefs.getString("uid");
-
-// 3 : update imageurls table user
-    tLoading.show("saving ...");
-    firestore.collection('users').document(uid).updateData(user).then((v) {
-      int g = 0;
-      //TODO update success
-    }).catchError((e) {
-      int g1 = 0;
-      //TODO update fails
+    tLoading.show();
+    const oneSec = const Duration(seconds:1);
+    Timer.periodic(oneSec, (Timer t) {
+      print(DateTime.now().toString());
+      tLoading.title = DateTime.now().toString();
     });
-    tLoading.hide();
-// 4 : delete unused images
-
-// 5. load new sata from users table and fill textboxs and image profile
-    // print(imageUrlsMustBeDeleted);
-    // print(imageUrls);
+    
+  
   }
 
   void _getCurrentUserInfoFromFireStore() async {
     TLoading tl = new TLoading(context);
-    tl.show("loading ...");
+    tl.title = "loading ...";
+    tl.show();
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String uid = prefs.getString("uid");
 
@@ -222,17 +235,22 @@ class TProfilePictures extends StatefulWidget {
 
 class TProfilePicturesState extends State<TProfilePictures> {
   void _openImageCollectionManager() async {
-    ProfilePicture p1 = new ProfilePicture(
+    ProfileNetworkPicture p0 = new ProfileNetworkPicture(
+      imageUrl:
+          "https://firebasestorage.googleapis.com/v0/b/entertainmate-2019.appspot.com/o/Linux-Wallpaper-30.png?alt=media&token=23f34db5-302f-49ff-a33b-9b8dbd459af1",
+    );
+    ProfileNetworkPicture p1 = new ProfileNetworkPicture(
       imageUrl:
           "https://firebasestorage.googleapis.com/v0/b/entertainmate-2019.appspot.com/o/intro_a.png?alt=media&token=ecaa2004-6b70-4bc0-95bd-473b05453c44",
     );
-    ProfilePicture p2 = new ProfilePicture(
+    ProfileNetworkPicture p2 = new ProfileNetworkPicture(
       imageUrl:
           "https://firebasestorage.googleapis.com/v0/b/entertainmate-2019.appspot.com/o/intro_b.png?alt=media&token=d2042839-255e-4992-9752-7210dc588d9a",
     );
-    List<ProfilePicture> lp = new List();
-    lp.add(p1);
-    lp.add(p2);
+    List<Widget> lp = new List();
+    // lp.add(p0);
+    // lp.add(p1);
+    // lp.add(p2);
     Map results = await Navigator.push(
       context,
       MaterialPageRoute(

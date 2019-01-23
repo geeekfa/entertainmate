@@ -22,6 +22,11 @@ class TSlider extends StatefulWidget {
 class TSliderState extends State<TSlider> {
   double _index;
   ScrollController _scrollController;
+
+  double get index {
+    return _index;
+  }
+
   void animateToNext() {
     //  key.currentState.animateToNext();
     _scrollController.animateTo(

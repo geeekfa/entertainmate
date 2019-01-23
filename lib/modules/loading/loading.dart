@@ -2,12 +2,17 @@ import 'package:flutter/material.dart';
 
 class TLoading {
   BuildContext _context;
+  TModalRoute tModalRoute;
   TLoading(BuildContext context) {
     this._context = context;
+    tModalRoute = TModalRoute(_context);
+  }
+  set title(String _title) {
+    tModalRoute.title=_title;
   }
 
-  void show(String title) {
-    Navigator.of(_context).push(TModalRoute(_context, title));
+  void show() {
+    Navigator.of(_context).push(tModalRoute);
   }
 
   void hide() {
@@ -18,9 +23,15 @@ class TLoading {
 class TModalRoute extends ModalRoute<void> {
   BuildContext _context;
   String _title;
-  TModalRoute(BuildContext context, String title) {
+  set title(String title) {
+    setState(() {
+      this._title = title;
+      
+    });
+  }
+
+  TModalRoute(BuildContext context) {
     this._context = context;
-    this._title = title;
   }
   @override
   Duration get transitionDuration => Duration(milliseconds: 100);
@@ -32,7 +43,7 @@ class TModalRoute extends ModalRoute<void> {
   bool get barrierDismissible => false;
 
   @override
-  Color get barrierColor => Theme.of(_context).primaryColor.withOpacity(0.1);
+  Color get barrierColor => Theme.of(_context).primaryColor.withOpacity(0.8);
 
   @override
   String get barrierLabel => null;
@@ -50,7 +61,7 @@ class TModalRoute extends ModalRoute<void> {
         onWillPop: () {
           //  Navigator.pop(context);
           //  Navigator.pop(context);
-          return new Future.value(false);
+          return new Future.value(true);
         },
         child: Material(
           type: MaterialType.transparency,
@@ -65,9 +76,11 @@ class TModalRoute extends ModalRoute<void> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          new CircularProgressIndicator(),
+          new CircularProgressIndicator(
+            valueColor: new AlwaysStoppedAnimation<Color>(Colors.white),
+          ),
           Padding(padding: EdgeInsets.only(bottom: 10.0)),
-          new Text(_title),
+          new Text(_title, style: Theme.of(context).textTheme.display4),
         ],
       ),
     );

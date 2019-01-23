@@ -15,13 +15,11 @@ class IntroPage extends StatefulWidget {
 class IntroPageState extends State<IntroPage> {
   bool _visibleSKIP;
   bool _visibleNEXT;
-  bool _visibleDONE;
   final key = new GlobalKey<TSliderState>();
   @override
   void initState() {
     _visibleSKIP = true;
     _visibleNEXT = true;
-    _visibleDONE = false;
     super.initState();
   }
 
@@ -35,21 +33,18 @@ class IntroPageState extends State<IntroPage> {
           slides: widget.intros,
           firstSlideReceived: () {
             setState(() {
-              _visibleDONE = false;
               _visibleNEXT = true;
               _visibleSKIP = true;
             });
           },
           slideChanged: (index) {
             setState(() {
-              _visibleDONE = false;
               _visibleNEXT = true;
               _visibleSKIP = true;
             });
           },
           lastSlideReceived: () {
             setState(() {
-              _visibleDONE = true;
               _visibleNEXT = false;
               _visibleSKIP = false;
             });

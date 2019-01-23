@@ -23,7 +23,8 @@ class LoginPageState extends State<LoginPage> {
   void _login() async {
     TLoading tLoading = new TLoading(context);
     try {
-      tLoading.show("login ...");
+      tLoading.title="login ...";
+      tLoading.show();
       final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
       FirebaseUser user = await _firebaseAuth.signInWithEmailAndPassword(
           email: _email, password: _password);
