@@ -15,7 +15,7 @@ class SignupPageState extends State<SignupPage> {
   String _email, _password;
 
   void _signup() async {
-    TLoading tLoading = new TLoading(context);
+    TLoading1 tLoading = new TLoading1(context);
     try {
       tLoading.show();
       final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;

@@ -21,7 +21,7 @@ class LoginPageState extends State<LoginPage> {
   var textEditPasswordController = new TextEditingController(text: 'sadad912');
 
   void _login() async {
-    TLoading tLoading = new TLoading(context);
+    TLoading1 tLoading = new TLoading1(context);
     try {
       tLoading.title="login ...";
       tLoading.show();

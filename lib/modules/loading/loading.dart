@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 
-class TLoading {
+class TLoading1 {
   BuildContext _context;
   TModalRoute tModalRoute;
-  TLoading(BuildContext context) {
+  TLoading1(BuildContext context) {
     this._context = context;
     tModalRoute = TModalRoute(_context);
   }
   set title(String _title) {
-    tModalRoute.title=_title;
+    tModalRoute.title = _title;
   }
 
   void show() {
@@ -24,10 +24,7 @@ class TModalRoute extends ModalRoute<void> {
   BuildContext _context;
   String _title;
   set title(String title) {
-    setState(() {
-      this._title = title;
-      
-    });
+    this._title = title;
   }
 
   TModalRoute(BuildContext context) {

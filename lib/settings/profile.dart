@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:entertainmate/modules/loading/load.dart';
 import 'package:entertainmate/modules/loading/loading.dart';
 import 'package:entertainmate/settings/profile_picture.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -105,21 +106,43 @@ class ProfilePageState extends State<ProfilePage> {
 // // 5. load new sata from users table and fill textboxs and image profile
 //     // print(imageUrlsMustBeDeleted);
 //     // print(imageUrls);
-    TLoading tLoading = new TLoading(context);
-    tLoading.title = "Loading ...";
+//     TLoading tLoading = new TLoading(context);
+//     tLoading.title = "Loading ...";
+// tLoading.show();
+//     const oneSec = const Duration(seconds:5);
+//     Timer.periodic(oneSec, (Timer t) {
+//       tLoading.title = DateTime.now().toString();
 
-    tLoading.show();
-    const oneSec = const Duration(seconds:1);
+//       tLoading.hide();
+//       tLoading.show();
+
+//     });
+//  Navigator.of(context).push(PageRouteBuilder(
+//     opaque: false,
+//     pageBuilder: (BuildContext context, _, __) =>
+//         TLoad("LLO")));
+    // Navigator.push(
+    //   context,
+    //   MaterialPageRoute(builder: (context) => TLoad()),
+    // );
+    var key= new GlobalKey<TLoadState>();
+    Navigator.of(context).push(PageRouteBuilder(
+        opaque: false,
+        pageBuilder: (BuildContext context, _, __) => TLoad(key: key)));
+    // TLoading tl=new TLoading(context);
+    // tl.title="dd";
+    // tl.show();
+     const oneSec = const Duration(seconds:5);
     Timer.periodic(oneSec, (Timer t) {
-      print(DateTime.now().toString());
-      tLoading.title = DateTime.now().toString();
+     // tl.title=DateTime.now().toString();
+     key.currentState.title=DateTime.now().toString();
+
     });
     
-  
   }
 
   void _getCurrentUserInfoFromFireStore() async {
-    TLoading tl = new TLoading(context);
+    TLoading1 tl = new TLoading1(context);
     tl.title = "loading ...";
     tl.show();
     SharedPreferences prefs = await SharedPreferences.getInstance();

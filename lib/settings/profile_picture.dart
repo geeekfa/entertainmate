@@ -152,7 +152,7 @@ class ProfilePictureState extends State<ProfilePicturePage> {
 
   void uploadAndUpdateProfilePictures() async {
     List<String> avatarUrls = new List();
-    TLoading tLoading = new TLoading(context);
+    TLoading1 tLoading = new TLoading1(context);
     int i=1;
     int sum=widget.profilePictures.length;
     tLoading.show();
@@ -200,7 +200,7 @@ class ProfilePictureState extends State<ProfilePicturePage> {
     tLoading.hide();
   }
 
-  Future<String> uploadProfilePicture(TLoading tLoading,String imageUrl) async {
+  Future<String> uploadProfilePicture(TLoading1 tLoading,String imageUrl) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String uid = prefs.getString("uid");
     String fileName = path.basename(imageUrl);
