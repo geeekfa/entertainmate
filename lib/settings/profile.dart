@@ -3,7 +3,6 @@ import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:entertainmate/modules/loading/load.dart';
 import 'package:entertainmate/modules/loading/loading.dart';
 import 'package:entertainmate/settings/profile_picture.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -125,26 +124,46 @@ class ProfilePageState extends State<ProfilePage> {
     //   context,
     //   MaterialPageRoute(builder: (context) => TLoad()),
     // );
-    var key= new GlobalKey<TLoadState>();
-    Navigator.of(context).push(PageRouteBuilder(
-        opaque: false,
-        pageBuilder: (BuildContext context, _, __) => TLoad(key: key)));
+    // var key= new GlobalKey<TLoadState>();
+    // Navigator.of(context).push(PageRouteBuilder(
+    //     opaque: false,
+    //     pageBuilder: (BuildContext context, _, __) => TLoad(key: key)));
     // TLoading tl=new TLoading(context);
     // tl.title="dd";
     // tl.show();
-     const oneSec = const Duration(seconds:5);
+    TLoading tl1 = new TLoading(context);
+    tl1.show("fuck");
+    // tl1.title="ggg";
+    const oneSec = const Duration(seconds: 5);
     Timer.periodic(oneSec, (Timer t) {
-     // tl.title=DateTime.now().toString();
-     key.currentState.title=DateTime.now().toString();
-
+      // tl.title=DateTime.now().toString();
+      tl1.title = DateTime.now().toString();
     });
-    
+
+    // TLoadingModel tLoadingModel = new TLoadingModel();
+    // tLoadingModel.title = "sasan";
+    // Navigator.push(
+    //     context,
+    //     new MaterialPageRoute(
+    //         builder: (_) => TLoadingWidget(
+    //               tLoadingmodel: tLoadingModel,
+    //             )));
+    // Navigator.of(context).push(PageRouteBuilder(
+    //     opaque: false,
+    //     pageBuilder: (BuildContext context, _, __) => TLoadingWidget(
+    //       stream: ,
+    //           tLoadingmodel: tLoadingModel,
+    //         )));
+    // const oneSec = const Duration(seconds: 5);
+    // Timer.periodic(oneSec, (Timer t) {
+    //   // tl.title=DateTime.now().toString();
+    //   tLoadingModel.title = DateTime.now().toString();
+    // });
   }
 
   void _getCurrentUserInfoFromFireStore() async {
-    TLoading1 tl = new TLoading1(context);
-    tl.title = "loading ...";
-    tl.show();
+    TLoading tl = new TLoading(context);
+    tl.show("loading ...");
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String uid = prefs.getString("uid");
 

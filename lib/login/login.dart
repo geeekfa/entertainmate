@@ -21,10 +21,9 @@ class LoginPageState extends State<LoginPage> {
   var textEditPasswordController = new TextEditingController(text: 'sadad912');
 
   void _login() async {
-    TLoading1 tLoading = new TLoading1(context);
+    TLoading tLoading = new TLoading(context);
     try {
-      tLoading.title="login ...";
-      tLoading.show();
+      tLoading.show("login ...");
       final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
       FirebaseUser user = await _firebaseAuth.signInWithEmailAndPassword(
           email: _email, password: _password);

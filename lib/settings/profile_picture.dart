@@ -152,10 +152,11 @@ class ProfilePictureState extends State<ProfilePicturePage> {
 
   void uploadAndUpdateProfilePictures() async {
     List<String> avatarUrls = new List();
-    TLoading1 tLoading = new TLoading1(context);
-    int i=1;
-    int sum=widget.profilePictures.length;
-    tLoading.show();
+
+    int i = 1;
+    int sum = widget.profilePictures.length;
+    TLoading tLoading = new TLoading(context);
+    tLoading.show("you are here");
     for (var profilePicture in widget.profilePictures) {
       if (profilePicture is ProfileNetworkPicture) {
         avatarUrls.add(profilePicture.imageUrl);
@@ -163,10 +164,9 @@ class ProfilePictureState extends State<ProfilePicturePage> {
         // is ProfileLocalPicture
         // 1.upload image
         String imageUrl = profilePicture.imageFile.path;
-        tLoading.title="uploading "+i.toString()+" of "+sum.toString();
+        tLoading.title = "uploading " + i.toString() + " of " + sum.toString();
         i++;
         String networkUrl = await uploadProfilePicture(tLoading,imageUrl);
-        
         // 2.get new imageurl and add to avatarUlrs
         avatarUrls.add(networkUrl);
       }
@@ -188,8 +188,7 @@ class ProfilePictureState extends State<ProfilePicturePage> {
     String uid = prefs.getString("uid");
 
 // 3 : update imageurls table user
-    tLoading.title="updating ...";
-    tLoading.show();
+    // tLoading.show("updating ...");
     firestore.collection('users').document(uid).updateData(user).then((v) {
       int g = 0;
       //TODO update success
@@ -197,10 +196,10 @@ class ProfilePictureState extends State<ProfilePicturePage> {
       int g1 = 0;
       //TODO update fails
     });
-    tLoading.hide();
+    // tLoading.hide();
   }
 
-  Future<String> uploadProfilePicture(TLoading1 tLoading,String imageUrl) async {
+  Future<String> uploadProfilePicture(TLoading tLoading,String imageUrl) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String uid = prefs.getString("uid");
     String fileName = path.basename(imageUrl);
@@ -210,14 +209,19 @@ class ProfilePictureState extends State<ProfilePicturePage> {
         .child('profile _pictures')
         .child(fileName);
     StorageUploadTask task = ref.putFile(File(imageUrl));
+    // TLoading tLoading = new TLoading(context);
+    // tLoading.show("you are here");
     task.events.listen((event) {
-          setState(() {
-            double _progess = event.snapshot.bytesTransferred.toDouble() / event.snapshot.totalByteCount.toDouble();
-            tLoading.title=_progess.toString();
-          });
-        }).onError((error) {
-          //error.toString()
-        });
+      setState(() {
+        double _progess = event.snapshot.bytesTransferred.toDouble() /
+            event.snapshot.totalByteCount.toDouble();
+        print(_progess);
+        tLoading.title = _progess.toString();
+      });
+    }).onError((error) {
+      //error.toString()
+    });
+    //tLoading.hide();
     return await (await task.onComplete).ref.getDownloadURL();
   }
 }

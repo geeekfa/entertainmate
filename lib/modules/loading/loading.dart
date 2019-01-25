@@ -1,97 +1,93 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
-class TLoading1 {
-  BuildContext _context;
-  TModalRoute tModalRoute;
-  TLoading1(BuildContext context) {
-    this._context = context;
-    tModalRoute = TModalRoute(_context);
+class TLoading {
+  BuildContext context;
+  StreamController<String> _controller;
+  TLoading(BuildContext context) {
+    this.context = context;
+    _controller = StreamController<String>();
   }
-  set title(String _title) {
-    tModalRoute.title = _title;
+  set title(String title) {
+    _controller.add(title);
   }
 
-  void show() {
-    Navigator.of(_context).push(tModalRoute);
+  void show(String title) {
+    _controller.add(title);
+    Navigator.of(context).push(PageRouteBuilder(
+        opaque: false,
+        pageBuilder: (BuildContext context, _, __) => TLoadingWidget(
+              stream: _controller.stream,
+            )));
   }
 
   void hide() {
-    Navigator.pop(_context);
+    Navigator.pop(context);
   }
 }
 
-class TModalRoute extends ModalRoute<void> {
-  BuildContext _context;
-  String _title;
+class TLoadingModel {
+  String $title;
+  String get title {
+    return $title;
+  }
+
   set title(String title) {
-    this._title = title;
+    this.$title = title;
   }
 
-  TModalRoute(BuildContext context) {
-    this._context = context;
-  }
-  @override
-  Duration get transitionDuration => Duration(milliseconds: 100);
+  // TLoadingModel({@required this.$title});
+}
 
+class TLoadingWidget extends StatefulWidget {
+  // final TLoadingModel tLoadingmodel;
+  final Stream<String> stream;
+  TLoadingWidget({@required this.stream});
   @override
-  bool get opaque => false;
+  TLoadingWidgetState createState() => TLoadingWidgetState();
+}
 
-  @override
-  bool get barrierDismissible => false;
-
-  @override
-  Color get barrierColor => Theme.of(_context).primaryColor.withOpacity(0.8);
-
-  @override
-  String get barrierLabel => null;
-
-  @override
-  bool get maintainState => true;
-
-  @override
-  Widget buildPage(
-    BuildContext context,
-    Animation<double> animation,
-    Animation<double> secondaryAnimation,
-  ) {
-    return new WillPopScope(
-        onWillPop: () {
-          //  Navigator.pop(context);
-          //  Navigator.pop(context);
-          return new Future.value(true);
-        },
-        child: Material(
-          type: MaterialType.transparency,
-          child: SafeArea(
-            child: _buildOverlayContent(context),
-          ),
-        ));
+class TLoadingWidgetState extends State<TLoadingWidget> {
+  String $title;
+  set title(String title) {
+    setState(() {
+      this.$title = title;
+    });
   }
 
-  Widget _buildOverlayContent(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          new CircularProgressIndicator(
-            valueColor: new AlwaysStoppedAnimation<Color>(Colors.white),
-          ),
-          Padding(padding: EdgeInsets.only(bottom: 10.0)),
-          new Text(_title, style: Theme.of(context).textTheme.display4),
-        ],
-      ),
-    );
+  // TLoadState(String title) {
+  //   this._title = title;
+  // }
+
+  @override
+  void initState() {
+    widget.stream.listen(($title) {
+      title = $title;
+    });
+    super.initState();
   }
 
   @override
-  Widget buildTransitions(BuildContext context, Animation<double> animation,
-      Animation<double> secondaryAnimation, Widget child) {
-    return FadeTransition(
-      opacity: animation,
-      child: ScaleTransition(
-        scale: animation,
-        child: child,
-      ),
+  Widget build(BuildContext context) {
+    return WillPopScope(
+      onWillPop: () {
+        return new Future.value(true);
+      },
+      child: Scaffold(
+          backgroundColor: Theme.of(context).primaryColor.withOpacity(0.8),
+          body: Center(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                new CircularProgressIndicator(
+                  valueColor: new AlwaysStoppedAnimation<Color>(Colors.white),
+                ),
+                Padding(padding: EdgeInsets.only(bottom: 10.0)),
+                new Text($title, style: Theme.of(context).textTheme.display4),
+              ],
+            ),
+          )),
     );
   }
 }
