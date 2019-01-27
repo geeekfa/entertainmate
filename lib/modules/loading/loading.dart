@@ -4,22 +4,43 @@ import 'package:flutter/material.dart';
 
 class TLoading {
   BuildContext context;
-  StreamController<String> _controller;
-  TLoading(BuildContext context) {
+  int type;
+  StreamController<String> streamControllerTitle;
+  StreamController<double> streamControllerValue;
+  TLoading({@required context, @required int type}) {
     this.context = context;
-    _controller = StreamController<String>();
+    this.type = type;
+    streamControllerTitle = StreamController<String>();
+    streamControllerValue = StreamController<double>();
   }
   set title(String title) {
-    _controller.add(title);
+    streamControllerTitle.add(title);
   }
 
-  void show(String title) {
-    _controller.add(title);
-    Navigator.of(context).push(PageRouteBuilder(
-        opaque: false,
-        pageBuilder: (BuildContext context, _, __) => TLoadingWidget(
-              stream: _controller.stream,
-            )));
+  set value(double value) {
+    streamControllerValue.add(value);
+  }
+
+  void show({@required title, double value}) {
+    streamControllerTitle.add(title);
+
+    if (type == 0) {
+      Navigator.of(context).push(PageRouteBuilder(
+          opaque: false,
+          pageBuilder: (BuildContext context, _, __) => TLoadingWidget(
+                type: 0,
+                streamTitle: streamControllerTitle.stream,
+              )));
+    } else {
+      streamControllerValue.add(value);
+      Navigator.of(context).push(PageRouteBuilder(
+          opaque: false,
+          pageBuilder: (BuildContext context, _, __) => TLoadingWidget(
+                type: 1,
+                streamTitle: streamControllerTitle.stream,
+                streamValue: streamControllerValue.stream,
+              )));
+    }
   }
 
   void hide() {
@@ -27,44 +48,41 @@ class TLoading {
   }
 }
 
-class TLoadingModel {
-  String $title;
-  String get title {
-    return $title;
-  }
-
-  set title(String title) {
-    this.$title = title;
-  }
-
-  // TLoadingModel({@required this.$title});
-}
-
 class TLoadingWidget extends StatefulWidget {
-  // final TLoadingModel tLoadingmodel;
-  final Stream<String> stream;
-  TLoadingWidget({@required this.stream});
+  final int type;
+  final Stream<String> streamTitle;
+  final Stream<double> streamValue;
+  TLoadingWidget(
+      {@required this.type, @required this.streamTitle, this.streamValue});
   @override
   TLoadingWidgetState createState() => TLoadingWidgetState();
 }
 
 class TLoadingWidgetState extends State<TLoadingWidget> {
-  String $title;
+  String $title = "";
+  double $value = 0.0;
   set title(String title) {
     setState(() {
       this.$title = title;
     });
   }
 
-  // TLoadState(String title) {
-  //   this._title = title;
-  // }
+  set value(double value) {
+    setState(() {
+      this.$value = value;
+    });
+  }
 
   @override
   void initState() {
-    widget.stream.listen(($title) {
-      title = $title;
+    widget.streamTitle.listen(($title) {
+      this.title = $title;
     });
+    if (widget.type == 1) {
+      widget.streamValue.listen(($value) {
+        this.value = $value;
+      });
+    }
     super.initState();
   }
 
@@ -80,9 +98,21 @@ class TLoadingWidgetState extends State<TLoadingWidget> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                new CircularProgressIndicator(
-                  valueColor: new AlwaysStoppedAnimation<Color>(Colors.white),
-                ),
+                widget.type == 0
+                    ? new CircularProgressIndicator(
+                        valueColor:
+                            new AlwaysStoppedAnimation<Color>(Colors.white),
+                      )
+                    : $value == 0.0
+                        ? new CircularProgressIndicator(
+                            valueColor:
+                                new AlwaysStoppedAnimation<Color>(Colors.white),
+                          )
+                        : new CircularProgressIndicator(
+                            value: $value,
+                            valueColor:
+                                new AlwaysStoppedAnimation<Color>(Colors.white),
+                          ),
                 Padding(padding: EdgeInsets.only(bottom: 10.0)),
                 new Text($title, style: Theme.of(context).textTheme.display4),
               ],

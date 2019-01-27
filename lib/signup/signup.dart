@@ -15,9 +15,9 @@ class SignupPageState extends State<SignupPage> {
   String _email, _password;
 
   void _signup() async {
-    TLoading tLoading = new TLoading(context);
+    TLoading tLoading = new TLoading(context: context, type: 0);
     try {
-      tLoading.show("test");
+      tLoading.show(title: "test");
       final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
       await _firebaseAuth.createUserWithEmailAndPassword(
           email: _email, password: _password);
@@ -85,7 +85,7 @@ class SignupPageState extends State<SignupPage> {
                     ),
                     Padding(padding: EdgeInsets.only(bottom: 5.0)),
                     new TextFormField(
-                      style: TextStyle(
+                        style: TextStyle(
                             color: Colors.blueGrey,
                             fontSize: 20.0,
                             fontFamily: 'calibri'),
@@ -117,7 +117,7 @@ class SignupPageState extends State<SignupPage> {
                         width: double.infinity,
                         child: new RaisedButton(
                           child: const Text('Sign up',
-                          style: TextStyle(
+                              style: TextStyle(
                                   fontSize: 16.0,
                                   fontWeight: FontWeight.bold,
                                   fontFamily: 'calibri')),

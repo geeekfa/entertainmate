@@ -139,34 +139,39 @@ class TSliderState extends State<TSlider> {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: <Widget>[
-        Positioned(
-          child: new ListView.builder(
-              controller: _scrollController,
-              physics: new PageScrollPhysics(),
-              itemCount: widget.slides.length,
-              itemBuilder: (BuildContext context, int index) {
-                return Container(
-                  width: MediaQuery.of(context).size.width,
-                  child: widget.slides[index],
-                );
-              },
-              scrollDirection: Axis.horizontal),
-        ),
-        Positioned(
-          bottom: 230.0,
-          width: MediaQuery.of(context).size.width,
-          child: Container(
-            child: new Align(
-                alignment: Alignment.bottomCenter,
-                child: new Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: createIndicators(widget.slides.length),
-                )),
+    return new Scaffold(
+      body: Container(
+        height: double.maxFinite,
+        child: new Column(children: <Widget>[
+          new Expanded(
+            flex: 1,
+            child: Container(
+              child: new ListView.builder(
+                  controller: _scrollController,
+                  physics: new PageScrollPhysics(),
+                  itemCount: widget.slides.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return Container(
+                      width: MediaQuery.of(context).size.width,
+                      child: widget.slides[index],
+                    );
+                  },
+                  scrollDirection: Axis.horizontal),
+            ),
           ),
-        )
-      ],
+          new Expanded(
+              flex:0,
+              child: Container(
+                color: Colors.grey[50],
+                child: new Align(
+                    alignment: Alignment.bottomCenter,
+                    child: new Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: createIndicators(widget.slides.length),
+                    )),
+              ))
+        ]),
+      ),
     );
   }
 }

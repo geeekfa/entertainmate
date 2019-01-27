@@ -15,8 +15,8 @@ class TConfirmDialog {
       context: _context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: new Text(title),
-          content: new Text(content),
+          title: new Text(title,style: Theme.of(context).textTheme.title),
+          content: new Text(content,style: Theme.of(context).textTheme.body2),
           actions: <Widget>[
             new FlatButton(
               child: new Text("No"),

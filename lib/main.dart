@@ -10,31 +10,38 @@ void main() {
   runApp(MaterialApp(
     home: MainPage(),
     theme: new ThemeData(
+      buttonColor: Colors.white,
       cardColor: Colors.white,
-      indicatorColor: Colors.white,
-      hintColor: Colors.blueGrey[300],
-      backgroundColor: Colors.blueGrey[400],
-      splashColor: Colors.blueGrey[100],
+      indicatorColor: Colors.grey,
+      hintColor: Colors.grey[300],
+      backgroundColor: Colors.grey[400],
+      splashColor: Colors.grey[100],
       brightness: Brightness.light,
-      primaryColor: Colors.blueGrey,
-      accentColor: Colors.blueGrey[500],
+      primaryColor: Colors.grey,
+      accentColor: Colors.grey[500],
       textTheme: new TextTheme(
+        subhead: TextStyle(
+          fontFamily: 'BRUSHSCI',
+          color: Colors.black,
+          fontSize: 16.0,
+          fontWeight: FontWeight.bold,
+        ),
         caption: TextStyle(
-            fontFamily: 'calibri', color: Colors.black, fontSize: 18.0),
+            fontFamily: 'calibri', color: Colors.black, fontSize: 16.0),
         headline: TextStyle(
-            color: Colors.blueGrey[300],
+            color: Colors.grey[300],
             fontSize: 28.0,
             fontWeight: FontWeight.bold,
             fontFamily: 'calibri'),
         title: TextStyle(
             fontFamily: 'calibri',
-            color: Colors.blueGrey,
-            fontSize: 23.0,
+            color: Colors.black,
+            fontSize: 18.0,
             fontWeight: FontWeight.bold),
         body1: TextStyle(
-            fontFamily: 'calibri', color: Colors.blueGrey, fontSize: 20.0),
+            fontFamily: 'calibri', color: Colors.grey, fontSize: 16.0),
         body2: TextStyle(
-            fontFamily: 'calibri', fontSize: 20.0, fontStyle: FontStyle.italic),
+            fontFamily: 'calibri',color: Colors.grey, fontSize: 16.0, fontStyle: FontStyle.normal),
         button: TextStyle(
             fontFamily: 'calibri',
             color: Colors.grey[800],
@@ -44,19 +51,19 @@ void main() {
             fontFamily: 'calibri', fontSize: 14.0, fontWeight: FontWeight.bold),
         display2: TextStyle(
           fontFamily: 'BRUSHSCI',
-          color: Colors.blueGrey,
+          color: Colors.grey,
           fontSize: 30.0,
           fontWeight: FontWeight.bold,
         ),
         display3: TextStyle(
           fontFamily: 'calibri',
-          color: Colors.grey,
+          color: Colors.blue,
           fontSize: 16.0,
         ),
         display4: TextStyle(
           fontFamily: 'calibri',
           color: Colors.white,
-          fontSize: 18.0,
+          fontSize: 16.0,
         ),
       ),
     ),

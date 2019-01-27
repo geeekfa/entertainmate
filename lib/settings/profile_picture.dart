@@ -9,6 +9,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:image_cropper/image_cropper.dart';
 
 class ProfilePicturePage extends StatefulWidget {
   final List<Widget> profilePictures;
@@ -97,21 +98,33 @@ class ProfilePictureState extends State<ProfilePicturePage> {
                         onPressed: () {
                           TImagePickerDialog tipd = new TImagePickerDialog(
                               context: context,
-                              imageSelected: (File image) {
+                              imageSelected: (File image) async {
                                 if (image != null) {
-                                  setState(() {
-                                    ProfileLocalPicture plp =
-                                        new ProfileLocalPicture(
-                                      imageFile: image,
-                                    );
-                                    widget.profilePictures.insert(
-                                        key.currentState.index.toInt(), plp);
-                                    if (widget.profilePictures != null &&
-                                        widget.profilePictures.length > 0) {
-                                      _visibleDELETE = true;
-                                      _visibleSAVE = true;
-                                    }
-                                  });
+                                  File croppedFile =
+                                      await ImageCropper.cropImage(
+                                    toolbarColor:
+                                        Theme.of(context).backgroundColor,
+                                    sourcePath: image.path,
+                                    ratioX: 1.0,
+                                    ratioY: 1.0,
+                                    maxWidth: 512,
+                                    maxHeight: 512,
+                                  );
+                                  if (croppedFile != null) {
+                                    setState(() {
+                                      ProfileLocalPicture plp =
+                                          new ProfileLocalPicture(
+                                        imageFile: croppedFile,
+                                      );
+                                      widget.profilePictures.insert(
+                                          key.currentState.index.toInt(), plp);
+                                      if (widget.profilePictures != null &&
+                                          widget.profilePictures.length > 0) {
+                                        _visibleDELETE = true;
+                                        _visibleSAVE = true;
+                                      }
+                                    });
+                                  }
                                 }
                               });
                           tipd.show();
@@ -155,8 +168,8 @@ class ProfilePictureState extends State<ProfilePicturePage> {
 
     int i = 1;
     int sum = widget.profilePictures.length;
-    TLoading tLoading = new TLoading(context);
-    tLoading.show("you are here");
+    TLoading tLoading = new TLoading(context: context, type: 1);
+    tLoading.show(title: "", value: 0.0);
     for (var profilePicture in widget.profilePictures) {
       if (profilePicture is ProfileNetworkPicture) {
         avatarUrls.add(profilePicture.imageUrl);
@@ -166,13 +179,14 @@ class ProfilePictureState extends State<ProfilePicturePage> {
         String imageUrl = profilePicture.imageFile.path;
         tLoading.title = "uploading " + i.toString() + " of " + sum.toString();
         i++;
-        String networkUrl = await uploadProfilePicture(tLoading,imageUrl);
+        String networkUrl = await uploadProfilePicture(tLoading, imageUrl);
         // 2.get new imageurl and add to avatarUlrs
         avatarUrls.add(networkUrl);
       }
     }
-    tLoading.hide();
+
     // 3. update avatarUrls in table users
+    tLoading.title = "updating ...";
     FirebaseApp app = await FirebaseApp.configure(
       name: 'entertainmate',
       options: const FirebaseOptions(
@@ -187,19 +201,17 @@ class ProfilePictureState extends State<ProfilePicturePage> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String uid = prefs.getString("uid");
 
-// 3 : update imageurls table user
-    // tLoading.show("updating ...");
-    firestore.collection('users').document(uid).updateData(user).then((v) {
-      int g = 0;
-      //TODO update success
-    }).catchError((e) {
-      int g1 = 0;
-      //TODO update fails
-    });
-    // tLoading.hide();
+    firestore
+        .collection('users')
+        .document(uid)
+        .updateData(user)
+        .then((v) {})
+        .catchError((e) {});
+    tLoading.hide();
   }
 
-  Future<String> uploadProfilePicture(TLoading tLoading,String imageUrl) async {
+  Future<String> uploadProfilePicture(
+      TLoading tLoading, String imageUrl) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String uid = prefs.getString("uid");
     String fileName = path.basename(imageUrl);
@@ -209,19 +221,13 @@ class ProfilePictureState extends State<ProfilePicturePage> {
         .child('profile _pictures')
         .child(fileName);
     StorageUploadTask task = ref.putFile(File(imageUrl));
-    // TLoading tLoading = new TLoading(context);
-    // tLoading.show("you are here");
     task.events.listen((event) {
       setState(() {
         double _progess = event.snapshot.bytesTransferred.toDouble() /
             event.snapshot.totalByteCount.toDouble();
-        print(_progess);
-        tLoading.title = _progess.toString();
+        tLoading.value = _progess;
       });
-    }).onError((error) {
-      //error.toString()
-    });
-    //tLoading.hide();
+    }).onError((error) {});
     return await (await task.onComplete).ref.getDownloadURL();
   }
 }
@@ -257,7 +263,7 @@ class ProfileLocalPicture extends StatelessWidget {
     return Scaffold(
         body: new Center(
             child: new Container(
-      padding: EdgeInsets.only(top: 24.0),
+      padding: EdgeInsets.only(top: 10.0),
       child: new Column(children: <Widget>[
         new Expanded(
           child: new Image.file(imageFile),
