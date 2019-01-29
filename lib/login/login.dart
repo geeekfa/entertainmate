@@ -66,31 +66,31 @@ class LoginPageState extends State<LoginPage> {
           key: _formKey,
           child: Column(
             children: <Widget>[
+              Padding(padding: EdgeInsets.only(bottom: 30.0)),
               Container(
-                  height: 80.0,
                   child: Stack(
-                    children: <Widget>[
-                      Center(
-                          child: Container(
-                        padding: EdgeInsets.only(top: 23.0),
-                        child: Opacity(
-                          opacity: 0.3,
-                          child: new Image.asset(
-                            "images/logo.png",
-                            width: 50.0,
-                          ),
-                        ),
-                      )),
-                      Center(
-                          child: Container(
-                        padding: EdgeInsets.only(top: 37.0),
-                        child: new Text(
-                          "Entertain-Mate",
-                          style: Theme.of(context).textTheme.caption,
-                        ),
-                      ))
-                    ],
+                children: <Widget>[
+                  Center(
+                      child: Container(
+                    padding: EdgeInsets.only(top: 23.0),
+                    child: Opacity(
+                      opacity: 0.3,
+                      child: new Image.asset(
+                        "images/logo.png",
+                        width: 50.0,
+                      ),
+                    ),
                   )),
+                  Center(
+                      child: Container(
+                    padding: EdgeInsets.only(top: 53.0),
+                    child: new Text(
+                      "Entertain-Mate",
+                      style: Theme.of(context).textTheme.caption,
+                    ),
+                  ))
+                ],
+              )),
               Center(
                   child: Container(
                       width: 250.0,
@@ -211,7 +211,36 @@ class LoginPageState extends State<LoginPage> {
                             },
                           ),
                         ],
-                      )))
+                      ))),
+              Expanded(
+                  child: Stack(
+                children: <Widget>[
+                  Positioned(
+                    width: MediaQuery.of(context).size.width,
+                    bottom: 0.0,
+                    child: new Image.asset("images/login.png"),
+                  )
+                ],
+              )),
+              // Container(
+              //     // height: 80.0,
+              //     child: Stack(
+              //   children: <Widget>[
+              //     // Positioned(
+              //     //   width: MediaQuery.of(context).size.width,
+              //     //   bottom: 10.0,
+              //     //   child: new Text("dd"),
+              //     // )
+              //     // Container(
+              //     //   color: Colors.red,
+              //     //   width: MediaQuery.of(context).size.width,
+              //     //   child: Text('sfd'),
+              //     //     // padding: EdgeInsets.only(top: 23.0),
+              //     //     // child: new Image.asset("images/login.png")
+              //     //     )
+
+              //   ],
+              // )),
             ],
           )),
     );
